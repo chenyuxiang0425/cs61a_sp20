@@ -2,3 +2,4 @@ __pycache__
 *.bak
 *.dat
 *.dir
+.ok_history
