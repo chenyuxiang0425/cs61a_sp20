@@ -3,3 +3,4 @@ __pycache__
 *.dat
 *.dir
 .ok_history
+ .ok_messages
