@@ -8,7 +8,7 @@ def both_positive(a, b):
     >>> both_positive(1, 1)
     True
     """
-    return a and b > 0 # You can replace this line!
+    return a > 0 and b > 0 # You can replace this line!
 
 def sum_digits(x):
     """Sum all the digits of x.
@@ -24,6 +24,12 @@ def sum_digits(x):
     6
     """
     "*** YOUR CODE HERE ***"
+    sum = 0
+    while (x//10):
+        sum += x%10
+        x = x//10
+    sum = sum + x
+    return sum
 
 def falling(n, k):
     """Compute the falling factorial of n to depth k.
@@ -38,6 +44,12 @@ def falling(n, k):
     1
     """
     "*** YOUR CODE HERE ***"
+    sum = 1
+    while (k > 0):
+        k = k - 1
+        sum *= n
+        n = n - 1
+    return sum
 
 def double_eights(n):
     """Return true if n has two eights in a row.
@@ -55,3 +67,13 @@ def double_eights(n):
     False
     """
     "*** YOUR CODE HERE ***"
+    isTure = False
+    prev = -1
+    while (n):
+        temp = n % 10
+        if (prev == temp and temp == 8):
+            isTure = True
+            break
+        prev = temp
+        n = n // 10
+    return isTure
