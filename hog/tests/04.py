@@ -7,56 +7,50 @@ test = {
         {
           'code': r"""
           >>> is_swap(2, 4)
-          d763fd836a7bfb096222e985b161b406
-          # locked
+          False
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           >>> is_swap(11, 1)
-          d763fd836a7bfb096222e985b161b406
-          # locked
+          False
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           >>> is_swap(1, 0)
-          bc6c4798917b91886d7fa5f56e42878f
-          # locked
+          True
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           >>> is_swap(23, 4)
-          bc6c4798917b91886d7fa5f56e42878f
-          # locked
+          True
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           >>> is_swap(10, 3)
-          d763fd836a7bfb096222e985b161b406
-          # locked
+          False
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           >>> is_swap(92, 3)
-          d763fd836a7bfb096222e985b161b406
-          # locked
+          False
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""

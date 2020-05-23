@@ -2,7 +2,7 @@
 
 from dice import six_sided, four_sided, make_test_dice
 from ucb import main, trace, interact
-
+from math import log10
 GOAL_SCORE = 100  # The goal of Hog is to score 100 points.
 
 ######################
@@ -22,6 +22,14 @@ def roll_dice(num_rolls, dice=six_sided):
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    sum, hasOne = 0, False
+    for i in range(0, num_rolls):
+        currNum = dice()
+        sum += currNum
+        if(currNum == 1):
+            hasOne = True
+
+    return 1 if hasOne else sum
     # END PROBLEM 1
 
 
@@ -33,6 +41,16 @@ def free_bacon(score):
     assert score < 100, 'The game should be over.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    index, sum, calculate_score = 0, 0, pow(score, 3)
+    while (calculate_score > 0):
+        currNum = calculate_score % 10
+        if ((index & 1) == 0):
+            sum += currNum
+        else:
+            sum -= currNum
+        index += 1
+        calculate_score = calculate_score // 10
+    return abs(sum) + 1
     # END PROBLEM 2
 
 
@@ -51,6 +69,10 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     assert opponent_score < 100, 'The game should be over.'
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if (num_rolls == 0):
+        return free_bacon(opponent_score)
+    else:
+        return roll_dice(num_rolls, dice)
     # END PROBLEM 3
 
 
@@ -60,6 +82,10 @@ def is_swap(player_score, opponent_score):
     """
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    end_socre = 3 ** (player_score + opponent_score)
+    last_num = end_socre % 10
+    first_num = end_socre // 10 ** int(log10(end_socre))
+    return (first_num == last_num)
     # END PROBLEM 4
 
 
@@ -100,13 +126,41 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    before_score0, before_score1 = 0, 0
+
+    while (score0 < goal) and (score1 < goal):
+        if who == 0:
+            dice_num = strategy0(score0, score1)
+            curr_score = take_turn(dice_num, score1, dice)
+            score0 += curr_score
+            if feral_hogs:
+                if checkNum(dice_num,before_score0):
+                    score0 +=3
+                before_score0 = curr_score
+
+        if who == 1:
+            dice_num = strategy1(score1, score0)
+            curr_score = take_turn(dice_num, score0, dice)
+            score1 += curr_score
+            if feral_hogs:
+                if checkNum(dice_num,before_score1):
+                    score1 +=3
+                before_score1 = curr_score
+
+        if is_swap(score0, score1):
+            score0, score1 = score1, score0
+            
+        who = other(who)
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
     # END PROBLEM 6
+    say = say(score0, score1)
     return score0, score1
 
+def checkNum(dice_num, before_num):
+    return (abs(dice_num - before_num) == 2)
 
 #######################
 # Phase 2: Commentary #
@@ -117,6 +171,7 @@ def say_scores(score0, score1):
     """A commentary function that announces the score for each player."""
     print("Player 0 now has", score0, "and Player 1 now has", score1)
     return say_scores
+
 
 def announce_lead_changes(prev_leader=None):
     """Return a commentary function that announces lead changes.
@@ -142,6 +197,7 @@ def announce_lead_changes(prev_leader=None):
             print('Player', leader, 'takes the lead by', abs(score0 - score1))
         return announce_lead_changes(leader)
     return say
+
 
 def both(f, g):
     """Return a commentary function that says what f says, then what g says.
@@ -286,7 +342,6 @@ def run_experiments():
     "*** You may add additional experiments as you wish ***"
 
 
-
 def bacon_strategy(score, opponent_score, margin=8, num_rolls=6):
     """This strategy rolls 0 dice if that gives at least MARGIN points, and
     rolls NUM_ROLLS otherwise.
@@ -338,3 +393,4 @@ def run(*args):
 
     if args.run_experiments:
         run_experiments()
+
