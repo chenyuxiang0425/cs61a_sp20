@@ -34,6 +34,10 @@ def product(n, f):
     162
     """
     "*** YOUR CODE HERE ***"
+    sum = 1
+    for i in range(0,n):
+        sum *= f(i+1)
+    return sum
 
 def accumulate(combiner, base, n, f):
     """Return the result of combining the first n terms in a sequence and base.
@@ -58,6 +62,11 @@ def accumulate(combiner, base, n, f):
     16
     """
     "*** YOUR CODE HERE ***"
+    total,i = base,1
+    while (i<=n):
+        total = combiner(total,f(i))
+        i += 1
+    return total
 
 def summation_using_accumulate(n, f):
     """Returns the sum of f(1) + ... + f(n). The implementation
@@ -74,6 +83,7 @@ def summation_using_accumulate(n, f):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(add,0,n,f)
 
 def product_using_accumulate(n, f):
     """An implementation of product using accumulate.
@@ -89,6 +99,8 @@ def product_using_accumulate(n, f):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(mul,1,n,f)
+
 
 def compose1(h, g):
     """Return a function f, such that f(x) = h(g(x))."""
@@ -112,6 +124,15 @@ def make_repeater(h, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    
+    '''m = identity
+    while (n > 0):
+        m = compose1(h,m)
+        n -= 1
+    return m'''
+    
+
+    return accumulate(compose1,identity,n,lambda k:h)
 
 
 ##########################
@@ -127,10 +148,12 @@ def successor(n):
 def one(f):
     """Church numeral 1: same as successor(zero)"""
     "*** YOUR CODE HERE ***"
+    return lambda x : f(x)
 
 def two(f):
     """Church numeral 2: same as successor(successor(zero))"""
     "*** YOUR CODE HERE ***"
+    return lambda x:f(f(x))
 
 three = successor(two)
 
@@ -147,6 +170,7 @@ def church_to_int(n):
     3
     """
     "*** YOUR CODE HERE ***"
+    return n(lambda x: x + 1)(0)
 
 def add_church(m, n):
     """Return the Church numeral for m + n, for Church numerals m and n.
@@ -155,6 +179,7 @@ def add_church(m, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    return lambda f :lambda x: m(f)(n(f)(x))
 
 def mul_church(m, n):
     """Return the Church numeral for m * n, for Church numerals m and n.
@@ -166,6 +191,8 @@ def mul_church(m, n):
     12
     """
     "*** YOUR CODE HERE ***"
+    # return lambda f : lambda x : m(n(f))(x)
+    return  lambda f : m(n(f))
 
 def pow_church(m, n):
     """Return the Church numeral m ** n, for Church numerals m and n.
@@ -176,3 +203,5 @@ def pow_church(m, n):
     9
     """
     "*** YOUR CODE HERE ***"
+    # return lambda f : lambda x :n(m)(f)(x)
+    return n(m)
