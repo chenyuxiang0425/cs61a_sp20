@@ -1,0 +1,26 @@
+{
+    "name": "Lab 4",
+    "endpoint": "cal/cs61a/sp20/lab04",
+    "src": [
+        "lab04.py"
+    ],
+    "tests": {
+        "lab*.py": "doctest",
+        "tests/*.py": "ok_test"
+    },
+    "default_tests": [
+        "skip_add",
+        "summation",
+        "gcd",
+        "paths",
+        "max_subseq"
+    ],
+    "protocols": [
+        "restore",
+        "file_contents",
+        "analytics",
+        "unlock",
+        "grading",
+        "backup"
+    ]
+}
