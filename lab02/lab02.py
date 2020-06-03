@@ -18,7 +18,7 @@ def lambda_curry2(func):
     3
     """
     "*** YOUR CODE HERE ***"
-    return ______
+    return lambda x: lambda y: func(x,y)
 
 def count_cond(condition):
     """Returns a function with one parameter N that counts all the numbers from
@@ -48,6 +48,15 @@ def count_cond(condition):
     8
     """
     "*** YOUR CODE HERE ***"
+    def count(n):
+        i = 1
+        count = 0
+        while (i <= n):
+            if (condition(n,i)):
+                count += 1
+            i += 1
+        return count
+    return count
 
 def both_paths(sofar="S"):
     """
@@ -61,6 +70,13 @@ def both_paths(sofar="S"):
     SLL
     """
     "*** YOUR CODE HERE ***"
+    print(sofar)
+    def left():
+        return both_paths(sofar+'L')
+    def right():
+        return both_paths(sofar+'R')
+
+    return left,right
 
 # Higher Order Functions
 
@@ -96,6 +112,7 @@ def composite_identity(f, g):
     False
     """
     "*** YOUR CODE HERE ***"
+    return lambda x:f(g(x)) == g(f(x))
 
 def cycle(f1, f2, f3):
     """Returns a function that is itself a higher-order function.
@@ -124,3 +141,17 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
+    def ret_fn(n):
+        def a(x):
+            i = 0
+            while (i < n):
+                if (i % 3 == 0):
+                    x = f1(x)
+                elif (i % 3 == 1):
+                    x = f2(x)
+                elif (i % 3 == 2):
+                    x = f3(x)
+                i += 1
+            return x
+        return a
+    return ret_fn
