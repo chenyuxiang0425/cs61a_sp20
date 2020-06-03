@@ -26,6 +26,14 @@ def num_sevens(x):
     True
     """
     "*** YOUR CODE HERE ***"
+    if x == 7:
+        return 1
+    elif x // 10 == 0 and x != 7:
+        return 0
+    elif x % 10 == 7: 
+        return 1 + num_sevens(x//10)
+    else:
+        return num_sevens(x//10)
 
 def pingpong(n):
     """Return the nth element of the ping-pong sequence.
@@ -60,6 +68,15 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(res,index,transition):
+        if (index == n):
+            return res
+        if (num_sevens(index)>0 or index % 7 == 0):
+            return helper(res-transition,index+1,-transition)
+        else:
+            return helper(res+transition,index+1,transition)
+    return helper(1,1,1)
+
 
 def count_change(total):
     """Return the number of ways to make change for total.
@@ -78,6 +95,22 @@ def count_change(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def largest_two(i):
+        if (i > total):
+            return i
+        else:
+            return largest_two(i * 2)
+
+    def count(n,m):
+        if n == 0:
+            return 1
+        elif n < 0:
+            return 0
+        elif m == 0:
+            return 0
+        else:
+            return count(n-m,m) + count(n,m//2)
+    return count(total,largest_two(1))
 
 def missing_digits(n):
     """Given a number a that is in sorted, increasing order,
@@ -99,7 +132,16 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    def count(res,n,pre):
+        if n == 0:
+            return res
+        else:
+            if (pre - n % 10) > 1:
+                return count(res+ pre - n % 10 - 1,n // 10,n%10)
+            else:
+                return count(res,n // 10,n%10)
+    
+    return count(0,n,0)
 
 ###################
 # Extra Questions #
@@ -138,6 +180,13 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        print_move(start,end)
+    else:
+        middle = 6-start-end
+        move_stack(n-1,start,middle)
+        print_move(start,end)
+        move_stack(n-1,middle,end)
 
 from operator import sub, mul
 
@@ -151,4 +200,4 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    return (lambda f:f(f))(lambda f:lambda n: 1 if n == 1 else mul(n,f(f)(n-1)))
