@@ -3,6 +3,7 @@
 
 this_file = __file__
 
+
 def skip_add(n):
     """ Takes a number n and returns n + n-2 + n-4 + n-6 + ... + 0.
 
@@ -18,9 +19,12 @@ def skip_add(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n <= 0:
+        return 0
+    return n + skip_add(n-2)
+
 
 def summation(n, term):
-
     """Return the sum of the first n terms in the sequence defined by term.
     Implement using recursion!
 
@@ -39,6 +43,10 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return term(1)
+    return term(n)+summation(n-1, term)
+
 
 def gcd(a, b):
     """Returns the greatest common divisor of a and b.
@@ -54,6 +62,12 @@ def gcd(a, b):
     40
     """
     "*** YOUR CODE HERE ***"
+    a, b = max(a, b), min(a, b)
+
+    if a % b == 0:
+        return b
+    return gcd(b, a % b)
+
 
 def paths(m, n):
     """Return the number of paths from one corner of an
@@ -69,6 +83,11 @@ def paths(m, n):
     1
     """
     "*** YOUR CODE HERE ***"
+    if m <= 0 or n <= 0:
+        return 0
+    if m == 1 and n == 1:
+        return 1
+    return paths(m-1, n) + paths(m, n-1)
 
 
 def max_subseq(n, l):
@@ -116,3 +135,8 @@ def max_subseq(n, l):
     5
     """
     "*** YOUR CODE HERE ***"
+    if (l == 0 or n == 0):
+        return 0
+    with_last = 10*max_subseq(n//10, l-1) + (n % 10)
+    without_last = max_subseq(n//10, l)
+    return max(with_last, without_last)
