@@ -863,7 +863,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from cats import wpm
+      >>> from typing import wpm
       """,
       'teardown': '',
       'type': 'doctest'

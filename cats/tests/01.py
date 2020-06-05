@@ -24,7 +24,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from cats import choose
+      >>> from typing import choose
       """,
       'teardown': '',
       'type': 'doctest'
@@ -2162,7 +2162,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from cats import choose
+      >>> from typing import choose
       """,
       'teardown': '',
       'type': 'doctest'
