@@ -70,6 +70,16 @@ def accuracy(typed, reference):
     reference_words = split(reference)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    length = len(typed_words)
+    if length == 0:
+        return 0.0
+    count = 0
+    for index in range(length):
+        if index >= len(reference_words):
+            break
+        if typed_words[index] == reference_words[index]:
+            count +=1
+    return count/length *100
     # END PROBLEM 3
 
 
