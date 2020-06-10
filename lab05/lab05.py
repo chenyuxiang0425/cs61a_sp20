@@ -347,6 +347,22 @@ def add_trees(t1, t2):
       5
     """
     "*** YOUR CODE HERE ***"
+    if not t1:
+        return t2
+    if not t2:
+        return t1
+
+    list_t1 = branches(t1)
+    list_t2 = branches(t2)
+    # I wannot to use zip function,but two lists are not the same length
+    # so It is nessary to add some '' in the end of the shortest list 
+    # to make two lists the same length -> then zip function works
+    if len(list_t1) < len(list_t2):
+        list_t1 += ['']*(len(list_t2) - len(list_t1))
+    else:
+        list_t2 += ['']*(len(list_t1) - len(list_t2))
+
+    return tree(label(t1) + label(t2),[add_trees(b1,b2) for b1,b2 in zip(list_t1, list_t2)])
 
 # Shakespeare and Dictionaries
 
@@ -371,10 +387,11 @@ def build_successors_table(tokens):
     for word in tokens:
         if prev not in table:
             "*** YOUR CODE HERE ***"
+            table[prev] = []
         "*** YOUR CODE HERE ***"
+        table[prev].append(word)
         prev = word
     return table
-
 
 def construct_sent(word, table):
     """Prints a random sentence starting with word, sampling from
@@ -390,6 +407,8 @@ def construct_sent(word, table):
     result = ''
     while word not in ['.', '!', '?']:
         "*** YOUR CODE HERE ***"
+        result += word + " "
+        word = random.choice(table[word])
     return result.strip() + word
 
 
@@ -404,8 +423,8 @@ def shakespeare_tokens(path='shakespeare.txt', url='http://composingprograms.com
         return shakespeare.read().decode(encoding='ascii').split()
 
 # Uncomment the following two lines
-# tokens = shakespeare_tokens()
-# table = build_successors_table(tokens)
+tokens = shakespeare_tokens()
+table = build_successors_table(tokens)
 
 
 def random_sent():
