@@ -18,6 +18,9 @@ test = {
           >>> accuracy("a b", "c d e")
           c724dae4a49e254e46460a5c2ce9f821
           # locked
+          >>> accuracy("Cat", "cat") # the function is case-sensitive
+          c724dae4a49e254e46460a5c2ce9f821
+          # locked
           >>> accuracy("a b c d", " a d ")
           7cbad8c4359bad70d88711ccbdb3b0d5
           # locked
@@ -31,6 +34,9 @@ test = {
           c724dae4a49e254e46460a5c2ce9f821
           # locked
           >>> accuracy("", "abc")
+          c724dae4a49e254e46460a5c2ce9f821
+          # locked
+          >>> accuracy("cats.", "cats") # punctuation counts 
           c724dae4a49e254e46460a5c2ce9f821
           # locked
           """,
@@ -863,7 +869,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from typing import accuracy
+      >>> from cats import accuracy
       """,
       'teardown': '',
       'type': 'doctest'

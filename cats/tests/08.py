@@ -930,7 +930,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from typing import report_progress
+      >>> from cats import report_progress
       >>> print_progress = lambda d: print('ID:', d['id'], 'Progress:', d['progress'])
       """,
       'teardown': '',

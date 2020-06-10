@@ -29,7 +29,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from typing import about
+      >>> from cats import about
       """,
       'teardown': '',
       'type': 'doctest'
@@ -939,7 +939,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from typing import about
+      >>> from cats import about
       """,
       'teardown': '',
       'type': 'doctest'

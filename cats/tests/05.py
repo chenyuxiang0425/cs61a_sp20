@@ -864,7 +864,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from typing import autocorrect, lines_from_file
+      >>> from cats import autocorrect, lines_from_file
       """,
       'teardown': '',
       'type': 'doctest'

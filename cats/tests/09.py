@@ -1,22 +1,30 @@
 test = {
   'name': 'Problem 9',
-  'points': 3,
+  'points': 1,
   'suites': [
     {
       'cases': [
         {
           'code': r"""
-          >>> p0 = [word_time('START', 0), word_time('What', 0.2), word_time('great', 0.4), word_time('luck', 0.8)]
-          >>> p1 = [word_time('START', 0), word_time('What', 0.6), word_time('great', 0.8), word_time('luck', 1.19)]
-          >>> fastest_words([p0, p1])
-          8e46fe768e646201a51b6caf0ae65fdb
+          >>> p = [[1, 4, 6, 7], [0, 4, 6, 9]]
+          >>> words = ['This', 'is', 'fun']
+          >>> game = time_per_word(p, words)
+          >>> all_words(game)
+          19534957e1c84f7da7ed570021f15b71
           # locked
-          >>> fastest_words([p0, p1], 0.1)  # with a large margin, both typed "luck" the fastest
-          c8f4afb99c22926d63b4937678249c68
+          >>> all_times(game)
+          aa2d895a2e5d7bcaa2f2b23f38726547
           # locked
-          >>> p2 = [word_time('START', 0), word_time('What', 0.2), word_time('great', 0.3), word_time('luck', 0.6)]
-          >>> fastest_words([p0, p1, p2])
-          26d9e18fe121bc000bf2abf00214a032
+          >>> p = [[0, 2, 3], [2, 4, 7]]
+          >>> game = time_per_word(p, ['hello', 'world'])
+          >>> word_at(game, 1)
+          1db4096d8d74bcd7bee03ad96f044740
+          # locked
+          >>> all_times(game)
+          7f55cfc66683ae9bd44af8592e4fd001
+          # locked
+          >>> time(game, 0, 1)
+          52f1b72ba99dddc798bb5cebce0be695
           # locked
           """,
           'hidden': False,
@@ -24,8 +32,35 @@ test = {
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 44)], [word_time('START', 44)]]
-          >>> fastest_words(p, 0.020833333333333332)
+          >>> p = [[83, 86, 87, 92, 94], [21, 26, 27, 30, 31]]
+          >>> game = time_per_word(p, ['colliquativeness', 'soshed', 'neurine', 'statutably'])
+          >>> all_words(game)
+          ['colliquativeness', 'soshed', 'neurine', 'statutably']
+          >>> all_times(game)
+          [[3, 1, 5, 2], [5, 1, 3, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[16, 18, 23, 28, 30, 33]]
+          >>> game = time_per_word(p, ['unsimilar', 'conditioning', 'crystallogenical', 'mennom', 'foreannouncement'])
+          >>> all_words(game)
+          ['unsimilar', 'conditioning', 'crystallogenical', 'mennom', 'foreannouncement']
+          >>> all_times(game)
+          [[2, 5, 5, 2, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[72], [22]]
+          >>> game = time_per_word(p, [])
+          >>> all_words(game)
+          []
+          >>> all_times(game)
           [[], []]
           """,
           'hidden': False,
@@ -33,17 +68,155 @@ test = {
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 37), word_time('mennom' , 38.0)]]
-          >>> fastest_words(p, 0.07692307692307693)
-          [['mennom']]
+          >>> p = [[72, 73, 77]]
+          >>> game = time_per_word(p, ['unceasingness', 'gendarme'])
+          >>> all_words(game)
+          ['unceasingness', 'gendarme']
+          >>> all_times(game)
+          [[1, 4]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 40)], [word_time('START', 40)]]
-          >>> fastest_words(p, 0.0625)
+          >>> p = [[87, 90, 93], [72, 74, 79]]
+          >>> game = time_per_word(p, ['unliquidated', 'multivoltine'])
+          >>> all_words(game)
+          ['unliquidated', 'multivoltine']
+          >>> all_times(game)
+          [[3, 3], [2, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[16, 21, 22, 23], [73, 77, 82, 86], [8, 9, 11, 16]]
+          >>> game = time_per_word(p, ['antimonarchial', 'archaeology', 'oopod'])
+          >>> all_words(game)
+          ['antimonarchial', 'archaeology', 'oopod']
+          >>> all_times(game)
+          [[5, 1, 1], [4, 5, 4], [1, 2, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[79, 82, 83]]
+          >>> game = time_per_word(p, ['nehiloth', 'cisplatine'])
+          >>> all_words(game)
+          ['nehiloth', 'cisplatine']
+          >>> all_times(game)
+          [[3, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[57, 58, 60, 63, 66]]
+          >>> game = time_per_word(p, ['croup', 'accompaniment', 'delabialize', 'erythematous'])
+          >>> all_words(game)
+          ['croup', 'accompaniment', 'delabialize', 'erythematous']
+          >>> all_times(game)
+          [[1, 2, 3, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[83, 84, 85, 90]]
+          >>> game = time_per_word(p, ['basidiolichen', 'pruriently', 'elasticness'])
+          >>> all_words(game)
+          ['basidiolichen', 'pruriently', 'elasticness']
+          >>> all_times(game)
+          [[1, 1, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[65, 69, 71, 73, 78, 81, 86], [22, 23, 24, 29, 33, 34, 35], [52, 55, 59, 60, 61, 64, 69]]
+          >>> game = time_per_word(p, ['homotypical', 'temporomandibular', 'unannexed', 'umbellar', 'rambutan', 'southeasternmost'])
+          >>> all_words(game)
+          ['homotypical', 'temporomandibular', 'unannexed', 'umbellar', 'rambutan', 'southeasternmost']
+          >>> all_times(game)
+          [[4, 2, 2, 5, 3, 5], [1, 1, 5, 4, 1, 1], [3, 4, 1, 1, 3, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[28, 30]]
+          >>> game = time_per_word(p, ['intercreate'])
+          >>> all_words(game)
+          ['intercreate']
+          >>> all_times(game)
+          [[2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[91, 93]]
+          >>> game = time_per_word(p, ['cashable'])
+          >>> all_words(game)
+          ['cashable']
+          >>> all_times(game)
+          [[2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[48, 50, 55, 57]]
+          >>> game = time_per_word(p, ['pulicidal', 'choultry', 'caryopilite'])
+          >>> all_words(game)
+          ['pulicidal', 'choultry', 'caryopilite']
+          >>> all_times(game)
+          [[2, 5, 2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[25, 30, 33]]
+          >>> game = time_per_word(p, ['stowbordman', 'scleromeninx'])
+          >>> all_words(game)
+          ['stowbordman', 'scleromeninx']
+          >>> all_times(game)
+          [[5, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[28, 29, 32, 36], [10, 11, 13, 14]]
+          >>> game = time_per_word(p, ['gonfalonierate', 'plumbosolvent', 'nearby'])
+          >>> all_words(game)
+          ['gonfalonierate', 'plumbosolvent', 'nearby']
+          >>> all_times(game)
+          [[1, 3, 4], [1, 2, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[12], [5]]
+          >>> game = time_per_word(p, [])
+          >>> all_words(game)
+          []
+          >>> all_times(game)
           [[], []]
           """,
           'hidden': False,
@@ -51,8 +224,311 @@ test = {
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 24)]]
-          >>> fastest_words(p, 0.25)
+          >>> p = [[65, 70], [68, 70]]
+          >>> game = time_per_word(p, ['pauldron'])
+          >>> all_words(game)
+          ['pauldron']
+          >>> all_times(game)
+          [[5], [2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[22, 27], [57, 62], [45, 50]]
+          >>> game = time_per_word(p, ['cameograph'])
+          >>> all_words(game)
+          ['cameograph']
+          >>> all_times(game)
+          [[5], [5], [5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[62, 65, 66], [49, 52, 53]]
+          >>> game = time_per_word(p, ['intent', 'inadequateness'])
+          >>> all_words(game)
+          ['intent', 'inadequateness']
+          >>> all_times(game)
+          [[3, 1], [3, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[74, 77, 78, 81, 83, 86]]
+          >>> game = time_per_word(p, ['unrefined', 'havent', 'kilneye', 'wistful', 'scorbutic'])
+          >>> all_words(game)
+          ['unrefined', 'havent', 'kilneye', 'wistful', 'scorbutic']
+          >>> all_times(game)
+          [[3, 1, 3, 2, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[90, 92, 97, 101]]
+          >>> game = time_per_word(p, ['inefficacity', 'caulicule', 'autositic'])
+          >>> all_words(game)
+          ['inefficacity', 'caulicule', 'autositic']
+          >>> all_times(game)
+          [[2, 5, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[4, 5]]
+          >>> game = time_per_word(p, ['fewtrils'])
+          >>> all_words(game)
+          ['fewtrils']
+          >>> all_times(game)
+          [[1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[8, 13, 16, 21, 22, 25]]
+          >>> game = time_per_word(p, ['saltless', 'bailage', 'nonformation', 'yeven', 'argenteous'])
+          >>> all_words(game)
+          ['saltless', 'bailage', 'nonformation', 'yeven', 'argenteous']
+          >>> all_times(game)
+          [[5, 3, 5, 1, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[31, 36, 40, 43]]
+          >>> game = time_per_word(p, ['overcrop', 'julian', 'gaub'])
+          >>> all_words(game)
+          ['overcrop', 'julian', 'gaub']
+          >>> all_times(game)
+          [[5, 4, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[17, 22, 27], [1, 5, 9]]
+          >>> game = time_per_word(p, ['construction', 'upbid'])
+          >>> all_words(game)
+          ['construction', 'upbid']
+          >>> all_times(game)
+          [[5, 5], [4, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[23, 24, 26, 30, 35], [44, 49, 54, 55, 59], [50, 55, 57, 61, 63]]
+          >>> game = time_per_word(p, ['immortalness', 'powell', 'indifferently', 'palatograph'])
+          >>> all_words(game)
+          ['immortalness', 'powell', 'indifferently', 'palatograph']
+          >>> all_times(game)
+          [[1, 2, 4, 5], [5, 5, 1, 4], [5, 2, 4, 2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[90, 95, 97, 99, 100, 104], [32, 35, 39, 44, 47, 48]]
+          >>> game = time_per_word(p, ['rorqual', 'tautomeric', 'unprejudicedly', 'disregardance', 'reconveyance'])
+          >>> all_words(game)
+          ['rorqual', 'tautomeric', 'unprejudicedly', 'disregardance', 'reconveyance']
+          >>> all_times(game)
+          [[5, 2, 2, 1, 4], [3, 4, 5, 3, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[37, 38, 40, 42]]
+          >>> game = time_per_word(p, ['nightstock', 'catabaptist', 'aloud'])
+          >>> all_words(game)
+          ['nightstock', 'catabaptist', 'aloud']
+          >>> all_times(game)
+          [[1, 2, 2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[22, 26], [32, 37]]
+          >>> game = time_per_word(p, ['understrain'])
+          >>> all_words(game)
+          ['understrain']
+          >>> all_times(game)
+          [[4], [5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[83, 84, 88, 93, 98, 101], [97, 99, 103, 104, 107, 111]]
+          >>> game = time_per_word(p, ['accompliceship', 'dumpish', 'unqueried', 'incedingly', 'sudiform'])
+          >>> all_words(game)
+          ['accompliceship', 'dumpish', 'unqueried', 'incedingly', 'sudiform']
+          >>> all_times(game)
+          [[1, 4, 5, 5, 3], [2, 4, 1, 3, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[53, 57, 59, 62, 67, 68], [17, 19, 23, 28, 29, 33], [46, 48, 51, 56, 60, 65]]
+          >>> game = time_per_word(p, ['undishonored', 'counterflange', 'justly', 'contralto', 'erythematous'])
+          >>> all_words(game)
+          ['undishonored', 'counterflange', 'justly', 'contralto', 'erythematous']
+          >>> all_times(game)
+          [[4, 2, 3, 5, 1], [2, 4, 5, 1, 4], [2, 3, 5, 4, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[23, 28, 31], [58, 63, 66], [28, 31, 34]]
+          >>> game = time_per_word(p, ['replier', 'bending'])
+          >>> all_words(game)
+          ['replier', 'bending']
+          >>> all_times(game)
+          [[5, 3], [5, 3], [3, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[88, 90, 92, 94], [19, 23, 28, 32], [71, 74, 78, 80]]
+          >>> game = time_per_word(p, ['pandemy', 'fruited', 'draughtmanship'])
+          >>> all_words(game)
+          ['pandemy', 'fruited', 'draughtmanship']
+          >>> all_times(game)
+          [[2, 2, 2], [4, 5, 4], [3, 4, 2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[67, 71, 74, 76, 79], [61, 66, 70, 75, 80]]
+          >>> game = time_per_word(p, ['unconjecturable', 'lithontriptor', 'paradoctor', 'retinopapilitis'])
+          >>> all_words(game)
+          ['unconjecturable', 'lithontriptor', 'paradoctor', 'retinopapilitis']
+          >>> all_times(game)
+          [[4, 3, 2, 3], [5, 4, 5, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[85, 89], [68, 71], [35, 38]]
+          >>> game = time_per_word(p, ['liminary'])
+          >>> all_words(game)
+          ['liminary']
+          >>> all_times(game)
+          [[4], [3], [3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[55, 57]]
+          >>> game = time_per_word(p, ['myelencephalous'])
+          >>> all_words(game)
+          ['myelencephalous']
+          >>> all_times(game)
+          [[2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[55, 60, 64, 66, 71, 75], [6, 7, 9, 14, 19, 23]]
+          >>> game = time_per_word(p, ['surdation', 'piddler', 'unbatten', 'bemar', 'unfeeling'])
+          >>> all_words(game)
+          ['surdation', 'piddler', 'unbatten', 'bemar', 'unfeeling']
+          >>> all_times(game)
+          [[5, 4, 2, 5, 4], [1, 2, 5, 5, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[22, 26, 27, 28], [35, 38, 39, 43]]
+          >>> game = time_per_word(p, ['unmunched', 'sabered', 'unbattered'])
+          >>> all_words(game)
+          ['unmunched', 'sabered', 'unbattered']
+          >>> all_times(game)
+          [[4, 1, 1], [3, 1, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[83, 88], [60, 63]]
+          >>> game = time_per_word(p, ['rewarehouse'])
+          >>> all_words(game)
+          ['rewarehouse']
+          >>> all_times(game)
+          [[5], [3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[20, 24]]
+          >>> game = time_per_word(p, ['unidigitate'])
+          >>> all_words(game)
+          ['unidigitate']
+          >>> all_times(game)
+          [[4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[12, 15, 18, 22, 24, 26, 27], [71, 75, 79, 83, 84, 86, 91]]
+          >>> game = time_per_word(p, ['mockernut', 'boga', 'unzephyrlike', 'infragenual', 'dimmed', 'derelictness'])
+          >>> all_words(game)
+          ['mockernut', 'boga', 'unzephyrlike', 'infragenual', 'dimmed', 'derelictness']
+          >>> all_times(game)
+          [[3, 3, 4, 2, 2, 1], [4, 4, 4, 1, 2, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[98]]
+          >>> game = time_per_word(p, [])
+          >>> all_words(game)
+          []
+          >>> all_times(game)
           [[]]
           """,
           'hidden': False,
@@ -60,107 +536,83 @@ test = {
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 46), word_time('oviferous' , 47.0)], [word_time('START', 46), word_time('oviferous' , 46.333333333333336)]]
-          >>> fastest_words(p, 0.017857142857142856)
-          [[], ['oviferous']]
+          >>> p = [[82, 85, 88, 92, 97, 99, 100], [86, 91, 96, 98, 99, 104, 105], [74, 78, 80, 84, 88, 92, 95]]
+          >>> game = time_per_word(p, ['priesteen', 'parapet', 'linenman', 'noneffervescent', 'metasaccharinic', 'unreversible'])
+          >>> all_words(game)
+          ['priesteen', 'parapet', 'linenman', 'noneffervescent', 'metasaccharinic', 'unreversible']
+          >>> all_times(game)
+          [[3, 3, 4, 5, 2, 1], [5, 5, 2, 1, 5, 1], [4, 2, 4, 4, 4, 3]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 99), word_time('notchel' , 99.25), word_time('phengitical' , 100.25), word_time('dollier' , 100.75), word_time('bushlet' , 101.0), word_time('sciographic' , 101.25), word_time('vaned' , 101.45)], [word_time('START', 99), word_time('notchel' , 100.0), word_time('phengitical' , 100.2), word_time('dollier' , 101.2), word_time('bushlet' , 101.4), word_time('sciographic' , 101.9), word_time('vaned' , 102.23333333333333)]]
-          >>> fastest_words(p, 0.012658227848101266)
-          [['notchel', 'dollier', 'sciographic', 'vaned'], ['phengitical', 'bushlet']]
+          >>> p = [[51, 53, 57, 61, 64]]
+          >>> game = time_per_word(p, ['pulpit', 'cig', 'orbitelarian', 'overstress'])
+          >>> all_words(game)
+          ['pulpit', 'cig', 'orbitelarian', 'overstress']
+          >>> all_times(game)
+          [[2, 4, 4, 3]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 10), word_time('tylostylus' , 10.333333333333334), word_time('civil' , 11.333333333333334)]]
-          >>> fastest_words(p, 0.013513513513513514)
-          [['tylostylus', 'civil']]
+          >>> p = [[84, 88, 91, 92, 94]]
+          >>> game = time_per_word(p, ['underdevelop', 'rejumble', 'crowkeeper', 'symphyllous'])
+          >>> all_words(game)
+          ['underdevelop', 'rejumble', 'crowkeeper', 'symphyllous']
+          >>> all_times(game)
+          [[4, 3, 1, 2]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 47), word_time('delabialize' , 48.0), word_time('erythematous' , 48.333333333333336), word_time('gossipdom' , 49.333333333333336), word_time('killinite' , 50.333333333333336), word_time('osteochondropathy' , 51.333333333333336), word_time('tethydan' , 51.66666666666667)], [word_time('START', 47), word_time('delabialize' , 47.5), word_time('erythematous' , 47.833333333333336), word_time('gossipdom' , 48.03333333333334), word_time('killinite' , 48.23333333333334), word_time('osteochondropathy' , 48.48333333333334), word_time('tethydan' , 48.73333333333334)]]
-          >>> fastest_words(p, 0.014492753623188406)
-          [['erythematous'], ['delabialize', 'erythematous', 'gossipdom', 'killinite', 'osteochondropathy', 'tethydan']]
+          >>> p = [[95, 99, 104, 106]]
+          >>> game = time_per_word(p, ['phraseological', 'tristfulness', 'phonogrammically'])
+          >>> all_words(game)
+          ['phraseological', 'tristfulness', 'phonogrammically']
+          >>> all_times(game)
+          [[4, 5, 2]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 67), word_time('elasticness' , 68.0)], [word_time('START', 67), word_time('elasticness' , 67.25)]]
-          >>> fastest_words(p, 0.011764705882352941)
-          [[], ['elasticness']]
+          >>> p = [[75, 79, 82, 85, 88, 89], [93, 94, 95, 99, 102, 107], [60, 64, 65, 68, 69, 70]]
+          >>> game = time_per_word(p, ['zenana', 'block', 'diluvialist', 'heriot', 'supersalient'])
+          >>> all_words(game)
+          ['zenana', 'block', 'diluvialist', 'heriot', 'supersalient']
+          >>> all_times(game)
+          [[4, 3, 3, 3, 1], [1, 1, 4, 3, 5], [4, 1, 3, 1, 1]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 92), word_time('correction' , 92.2), word_time('inadhesion' , 92.45), word_time('featherfew' , 93.45)]]
-          >>> fastest_words(p, 0.01818181818181818)
-          [['correction', 'inadhesion', 'featherfew']]
+          >>> p = [[55, 58, 62, 66, 67, 70, 72], [50, 53, 55, 60, 62, 64, 65]]
+          >>> game = time_per_word(p, ['acrospore', 'raver', 'balzarine', 'neomorphic', 'lute', 'uranostaphylorrhaphy'])
+          >>> all_words(game)
+          ['acrospore', 'raver', 'balzarine', 'neomorphic', 'lute', 'uranostaphylorrhaphy']
+          >>> all_times(game)
+          [[3, 4, 4, 1, 3, 2], [3, 2, 5, 2, 2, 1]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 9), word_time('lycanthropic' , 9.2)]]
-          >>> fastest_words(p, 0.0625)
-          [['lycanthropic']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 25), word_time('itemization' , 25.2), word_time('lecithalbumin' , 25.7), word_time('heelpiece' , 26.03333333333333)]]
-          >>> fastest_words(p, 0.015625)
-          [['itemization', 'lecithalbumin', 'heelpiece']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 75), word_time('choultry' , 76.0), word_time('caryopilite' , 76.5), word_time('unowed' , 76.83333333333333), word_time('overslaugh' , 77.03333333333333), word_time('unshriveled' , 77.28333333333333)], [word_time('START', 75), word_time('choultry' , 75.5), word_time('caryopilite' , 75.83333333333333), word_time('unowed' , 76.83333333333333), word_time('overslaugh' , 77.16666666666666), word_time('unshriveled' , 77.36666666666666)], [word_time('START', 75), word_time('choultry' , 75.2), word_time('caryopilite' , 75.45), word_time('unowed' , 76.45), word_time('overslaugh' , 76.95), word_time('unshriveled' , 77.2)]]
-          >>> fastest_words(p, 0.03571428571428571)
-          [['unowed', 'overslaugh'], ['unshriveled'], ['choultry', 'caryopilite']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 82)], [word_time('START', 82)], [word_time('START', 82)]]
-          >>> fastest_words(p, 0.02040816326530612)
-          [[], [], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 88), word_time('zygostyle' , 88.33333333333333)], [word_time('START', 88), word_time('zygostyle' , 88.2)], [word_time('START', 88), word_time('zygostyle' , 88.33333333333333)]]
-          >>> fastest_words(p, 0.07692307692307693)
-          [[], ['zygostyle'], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 72)], [word_time('START', 72)]]
-          >>> fastest_words(p, 0.07692307692307693)
+          >>> p = [[68], [91]]
+          >>> game = time_per_word(p, [])
+          >>> all_words(game)
+          []
+          >>> all_times(game)
           [[], []]
           """,
           'hidden': False,
@@ -168,98 +620,287 @@ test = {
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 41), word_time('cecidiology' , 41.2), word_time('progne' , 42.2), word_time('cosiness' , 43.2)], [word_time('START', 41), word_time('cecidiology' , 41.5), word_time('progne' , 42.5), word_time('cosiness' , 42.833333333333336)]]
-          >>> fastest_words(p, 0.014285714285714285)
-          [['cecidiology', 'progne'], ['progne', 'cosiness']]
+          >>> p = [[12, 17, 22], [69, 71, 76], [5, 8, 9]]
+          >>> game = time_per_word(p, ['tatting', 'gynospore'])
+          >>> all_words(game)
+          ['tatting', 'gynospore']
+          >>> all_times(game)
+          [[5, 5], [2, 5], [3, 1]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 15), word_time('orrery' , 15.2)], [word_time('START', 15), word_time('orrery' , 15.2)], [word_time('START', 15), word_time('orrery' , 15.2)]]
-          >>> fastest_words(p, 0.14285714285714285)
-          [['orrery'], ['orrery'], ['orrery']]
+          >>> p = [[11]]
+          >>> game = time_per_word(p, [])
+          >>> all_words(game)
+          []
+          >>> all_times(game)
+          [[]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 42), word_time('careers' , 42.333333333333336), word_time('sublanceolate' , 42.833333333333336), word_time('feudist' , 43.16666666666667), word_time('vorticist' , 43.50000000000001), word_time('dup' , 43.70000000000001)]]
-          >>> fastest_words(p, 0.05)
-          [['careers', 'sublanceolate', 'feudist', 'vorticist', 'dup']]
+          >>> p = [[94, 96, 101, 106, 110, 115, 120], [52, 55, 60, 65, 69, 72, 75]]
+          >>> game = time_per_word(p, ['krait', 'proker', 'unchangefulness', 'sublevation', 'protosyntonose', 'saddlelike'])
+          >>> all_words(game)
+          ['krait', 'proker', 'unchangefulness', 'sublevation', 'protosyntonose', 'saddlelike']
+          >>> all_times(game)
+          [[2, 5, 5, 4, 5, 5], [3, 5, 5, 4, 3, 3]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 93), word_time('chichipe' , 93.33333333333333), word_time('antemeridian' , 94.33333333333333), word_time('metapolitical' , 94.66666666666666)]]
-          >>> fastest_words(p, 0.010101010101010102)
-          [['chichipe', 'antemeridian', 'metapolitical']]
+          >>> p = [[69, 72, 76, 80, 83, 87]]
+          >>> game = time_per_word(p, ['coccygeal', 'dinothere', 'faradmeter', 'oversubtlety', 'dispensatorily'])
+          >>> all_words(game)
+          ['coccygeal', 'dinothere', 'faradmeter', 'oversubtlety', 'dispensatorily']
+          >>> all_times(game)
+          [[3, 4, 4, 3, 4]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 99), word_time('stratum' , 99.25), word_time('onager' , 99.58333333333333)]]
-          >>> fastest_words(p, 0.01098901098901099)
-          [['stratum', 'onager']]
+          >>> p = [[37, 42], [61, 62]]
+          >>> game = time_per_word(p, ['thiswise'])
+          >>> all_words(game)
+          ['thiswise']
+          >>> all_times(game)
+          [[5], [1]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 73), word_time('hamated' , 73.33333333333333), word_time('encumberingly' , 73.83333333333333), word_time('closh' , 74.16666666666666), word_time('yugada' , 75.16666666666666)]]
-          >>> fastest_words(p, 0.0125)
-          [['hamated', 'encumberingly', 'closh', 'yugada']]
+          >>> p = [[9, 11, 16, 21, 22, 26], [6, 11, 16, 17, 19, 22]]
+          >>> game = time_per_word(p, ['headliner', 'dutiability', 'acquired', 'portfire', 'dilatometric'])
+          >>> all_words(game)
+          ['headliner', 'dutiability', 'acquired', 'portfire', 'dilatometric']
+          >>> all_times(game)
+          [[2, 5, 5, 1, 4], [5, 5, 1, 2, 3]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 4), word_time('nonformation' , 5.0), word_time('yeven' , 5.2), word_time('argenteous' , 5.533333333333333), word_time('ha' , 5.733333333333333)]]
-          >>> fastest_words(p, 0.022222222222222223)
-          [['nonformation', 'yeven', 'argenteous', 'ha']]
+          >>> p = [[55, 59, 60, 65, 67, 71], [37, 39, 43, 44, 45, 48]]
+          >>> game = time_per_word(p, ['jessica', 'ribaudequin', 'healsome', 'proceed', 'oxhorn'])
+          >>> all_words(game)
+          ['jessica', 'ribaudequin', 'healsome', 'proceed', 'oxhorn']
+          >>> all_times(game)
+          [[4, 1, 5, 2, 4], [2, 4, 1, 1, 3]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 83), word_time('roland' , 83.5), word_time('unfoxy' , 83.75), word_time('retrothyroid' , 84.25), word_time('haptotropic' , 84.5), word_time('anaphrodisiac' , 84.7), word_time('pupillometry' , 85.2)], [word_time('START', 83), word_time('roland' , 83.25), word_time('unfoxy' , 83.45), word_time('retrothyroid' , 83.78333333333333), word_time('haptotropic' , 84.78333333333333), word_time('anaphrodisiac' , 85.78333333333333), word_time('pupillometry' , 86.11666666666666)]]
-          >>> fastest_words(p, 0.024390243902439025)
-          [['haptotropic', 'anaphrodisiac'], ['roland', 'unfoxy', 'retrothyroid', 'pupillometry']]
+          >>> p = [[87, 92, 95, 96, 99, 103], [22, 24, 26, 31, 35, 36]]
+          >>> game = time_per_word(p, ['schemist', 'pentahedrous', 'relativeness', 'solivagant', 'gloriously'])
+          >>> all_words(game)
+          ['schemist', 'pentahedrous', 'relativeness', 'solivagant', 'gloriously']
+          >>> all_times(game)
+          [[5, 3, 1, 3, 4], [2, 2, 5, 4, 1]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 34), word_time('titterer' , 34.5)]]
-          >>> fastest_words(p, 0.25)
-          [['titterer']]
+          >>> p = [[37, 41, 43, 45, 46, 51, 54], [72, 73, 76, 79, 81, 83, 84]]
+          >>> game = time_per_word(p, ['carbonization', 'micropegmatitic', 'waterhorse', 'antisubstance', 'yucker', 'samely'])
+          >>> all_words(game)
+          ['carbonization', 'micropegmatitic', 'waterhorse', 'antisubstance', 'yucker', 'samely']
+          >>> all_times(game)
+          [[4, 2, 2, 1, 5, 3], [1, 3, 3, 2, 2, 1]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 4), word_time('capucine' , 5.0), word_time('scowlful' , 5.5), word_time('noration' , 5.75), word_time('tinstuff' , 5.95), word_time('arpent' , 6.95)], [word_time('START', 4), word_time('capucine' , 4.2), word_time('scowlful' , 4.4), word_time('noration' , 5.4), word_time('tinstuff' , 5.65), word_time('arpent' , 6.15)], [word_time('START', 4), word_time('capucine' , 4.2), word_time('scowlful' , 4.7), word_time('noration' , 4.95), word_time('tinstuff' , 5.45), word_time('arpent' , 6.45)]]
-          >>> fastest_words(p, 0.015873015873015872)
-          [['noration', 'tinstuff'], ['capucine', 'scowlful', 'arpent'], ['capucine', 'noration']]
+          >>> p = [[21, 23, 28, 33], [35, 38, 43, 46], [25, 26, 29, 30]]
+          >>> game = time_per_word(p, ['unguidable', 'presentational', 'autoheterosis'])
+          >>> all_words(game)
+          ['unguidable', 'presentational', 'autoheterosis']
+          >>> all_times(game)
+          [[2, 5, 5], [3, 5, 3], [1, 3, 1]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 53)], [word_time('START', 53)], [word_time('START', 53)]]
-          >>> fastest_words(p, 0.015873015873015872)
+          >>> p = [[57, 61], [0, 1]]
+          >>> game = time_per_word(p, ['predative'])
+          >>> all_words(game)
+          ['predative']
+          >>> all_times(game)
+          [[4], [1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[33, 38, 42, 47, 51, 52], [87, 90, 95, 96, 99, 103], [40, 41, 44, 47, 52, 57]]
+          >>> game = time_per_word(p, ['ripe', 'spatuliform', 'serpent', 'truantship', 'epicrystalline'])
+          >>> all_words(game)
+          ['ripe', 'spatuliform', 'serpent', 'truantship', 'epicrystalline']
+          >>> all_times(game)
+          [[5, 4, 5, 4, 1], [3, 5, 1, 3, 4], [1, 3, 3, 5, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[34, 39, 41, 46], [42, 46, 49, 52], [65, 66, 70, 74]]
+          >>> game = time_per_word(p, ['appliable', 'dysepulotic', 'opodeldoc'])
+          >>> all_words(game)
+          ['appliable', 'dysepulotic', 'opodeldoc']
+          >>> all_times(game)
+          [[5, 2, 5], [4, 3, 3], [1, 4, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[11, 13, 15], [58, 63, 65]]
+          >>> game = time_per_word(p, ['ameed', 'pneumonopleuritis'])
+          >>> all_words(game)
+          ['ameed', 'pneumonopleuritis']
+          >>> all_times(game)
+          [[2, 2], [5, 2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[17, 18, 22, 25, 30]]
+          >>> game = time_per_word(p, ['acrid', 'broomwood', 'relatability', 'pearlite'])
+          >>> all_words(game)
+          ['acrid', 'broomwood', 'relatability', 'pearlite']
+          >>> all_times(game)
+          [[1, 4, 3, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[51, 52, 53, 56, 57]]
+          >>> game = time_per_word(p, ['housewarming', 'hymenean', 'crepusculine', 'solecizer'])
+          >>> all_words(game)
+          ['housewarming', 'hymenean', 'crepusculine', 'solecizer']
+          >>> all_times(game)
+          [[1, 1, 3, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[6, 7, 8, 10, 15, 18, 21], [1, 3, 5, 8, 11, 14, 15]]
+          >>> game = time_per_word(p, ['absolve', 'paradisic', 'unaffectionately', 'exordial', 'weaponshowing', 'rhombohedra'])
+          >>> all_words(game)
+          ['absolve', 'paradisic', 'unaffectionately', 'exordial', 'weaponshowing', 'rhombohedra']
+          >>> all_times(game)
+          [[1, 1, 2, 5, 3, 3], [2, 2, 3, 3, 3, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[79, 83, 84, 88, 91], [90, 93, 97, 100, 101]]
+          >>> game = time_per_word(p, ['official', 'platybrachycephalous', 'pitometer', 'electrodepositor'])
+          >>> all_words(game)
+          ['official', 'platybrachycephalous', 'pitometer', 'electrodepositor']
+          >>> all_times(game)
+          [[4, 1, 4, 3], [3, 4, 3, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[9, 13, 17, 21], [91, 93, 94, 99]]
+          >>> game = time_per_word(p, ['hoseless', 'passivity', 'sparrowcide'])
+          >>> all_words(game)
+          ['hoseless', 'passivity', 'sparrowcide']
+          >>> all_times(game)
+          [[4, 4, 4], [2, 1, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[28, 33, 37], [24, 29, 33], [23, 28, 32]]
+          >>> game = time_per_word(p, ['mischieve', 'dayfly'])
+          >>> all_words(game)
+          ['mischieve', 'dayfly']
+          >>> all_times(game)
+          [[5, 4], [5, 4], [5, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[9, 10, 13, 17, 20, 21, 25], [56, 57, 62, 63, 67, 69, 74], [97, 102, 106, 107, 108, 111, 115]]
+          >>> game = time_per_word(p, ['notoriety', 'undersorcerer', 'pneumoperitonitis', 'balaenoidean', 'strawbreadth', 'postconnubial'])
+          >>> all_words(game)
+          ['notoriety', 'undersorcerer', 'pneumoperitonitis', 'balaenoidean', 'strawbreadth', 'postconnubial']
+          >>> all_times(game)
+          [[1, 3, 4, 3, 1, 4], [1, 5, 1, 4, 2, 5], [5, 4, 1, 1, 3, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[84, 89, 92, 97, 98, 101, 105], [72, 74, 76, 78, 83, 86, 89], [96, 101, 102, 105, 108, 112, 113]]
+          >>> game = time_per_word(p, ['wold', 'relieved', 'quicksandy', 'guaraguao', 'stalkless', 'unexhilarated'])
+          >>> all_words(game)
+          ['wold', 'relieved', 'quicksandy', 'guaraguao', 'stalkless', 'unexhilarated']
+          >>> all_times(game)
+          [[5, 3, 5, 1, 3, 4], [2, 2, 2, 5, 3, 3], [5, 1, 3, 3, 4, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[40, 43, 45, 46]]
+          >>> game = time_per_word(p, ['metonymically', 'acomia', 'tamelessly'])
+          >>> all_words(game)
+          ['metonymically', 'acomia', 'tamelessly']
+          >>> all_times(game)
+          [[3, 2, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[74], [94], [69]]
+          >>> game = time_per_word(p, [])
+          >>> all_words(game)
+          []
+          >>> all_times(game)
           [[], [], []]
           """,
           'hidden': False,
@@ -267,8 +908,35 @@ test = {
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 19)]]
-          >>> fastest_words(p, 0.017543859649122806)
+          >>> p = [[71, 76, 80, 85, 86, 90, 95], [97, 101, 104, 108, 112, 114, 116], [53, 55, 60, 62, 64, 69, 72]]
+          >>> game = time_per_word(p, ['imitationist', 'undershut', 'unmannerly', 'sterneber', 'nonappendicular', 'cityish'])
+          >>> all_words(game)
+          ['imitationist', 'undershut', 'unmannerly', 'sterneber', 'nonappendicular', 'cityish']
+          >>> all_times(game)
+          [[5, 4, 5, 1, 4, 5], [4, 3, 4, 4, 2, 2], [2, 5, 2, 2, 5, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[11, 13, 17, 20, 24, 27, 31], [31, 35, 36, 39, 43, 45, 48]]
+          >>> game = time_per_word(p, ['afterwale', 'davidson', 'toadpipe', 'achete', 'twankle', 'hookers'])
+          >>> all_words(game)
+          ['afterwale', 'davidson', 'toadpipe', 'achete', 'twankle', 'hookers']
+          >>> all_times(game)
+          [[2, 4, 3, 4, 3, 4], [4, 1, 3, 4, 2, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[19]]
+          >>> game = time_per_word(p, [])
+          >>> all_words(game)
+          []
+          >>> all_times(game)
           [[]]
           """,
           'hidden': False,
@@ -276,17 +944,155 @@ test = {
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 1), word_time('perth' , 1.2), word_time('chrematistic' , 2.2), word_time('proctotomy' , 2.4000000000000004), word_time('bicetyl' , 2.6000000000000005)], [word_time('START', 1), word_time('perth' , 1.2), word_time('chrematistic' , 1.5333333333333332), word_time('proctotomy' , 2.533333333333333), word_time('bicetyl' , 2.8666666666666667)], [word_time('START', 1), word_time('perth' , 2.0), word_time('chrematistic' , 2.25), word_time('proctotomy' , 2.75), word_time('bicetyl' , 3.0)]]
-          >>> fastest_words(p, 0.16666666666666666)
-          [['perth', 'proctotomy', 'bicetyl'], ['perth', 'chrematistic', 'bicetyl'], ['chrematistic', 'bicetyl']]
+          >>> p = [[26, 29]]
+          >>> game = time_per_word(p, ['unsloped'])
+          >>> all_words(game)
+          ['unsloped']
+          >>> all_times(game)
+          [[3]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 85)]]
-          >>> fastest_words(p, 0.02857142857142857)
+          >>> p = [[57, 62, 66, 67, 71]]
+          >>> game = time_per_word(p, ['tinwork', 'vortically', 'massicot', 'pinite'])
+          >>> all_words(game)
+          ['tinwork', 'vortically', 'massicot', 'pinite']
+          >>> all_times(game)
+          [[5, 4, 1, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[78, 82, 87, 88, 92, 97]]
+          >>> game = time_per_word(p, ['angelhood', 'xiphydriid', 'longicorn', 'shadchan', 'mixableness'])
+          >>> all_words(game)
+          ['angelhood', 'xiphydriid', 'longicorn', 'shadchan', 'mixableness']
+          >>> all_times(game)
+          [[4, 5, 1, 4, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[1, 3, 6, 10, 13, 16]]
+          >>> game = time_per_word(p, ['vibraculoid', 'feminility', 'voluminously', 'hydroferrocyanate', 'canthotomy'])
+          >>> all_words(game)
+          ['vibraculoid', 'feminility', 'voluminously', 'hydroferrocyanate', 'canthotomy']
+          >>> all_times(game)
+          [[2, 3, 4, 3, 3]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[23, 26, 28, 31, 36], [15, 20, 22, 27, 30], [81, 82, 87, 91, 96]]
+          >>> game = time_per_word(p, ['aperient', 'kymbalon', 'plastogamy', 'grumpily'])
+          >>> all_words(game)
+          ['aperient', 'kymbalon', 'plastogamy', 'grumpily']
+          >>> all_times(game)
+          [[3, 2, 3, 5], [5, 2, 5, 3], [1, 5, 4, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[49, 51, 53, 57], [42, 46, 51, 52]]
+          >>> game = time_per_word(p, ['overprovidently', 'obdormition', 'precollect'])
+          >>> all_words(game)
+          ['overprovidently', 'obdormition', 'precollect']
+          >>> all_times(game)
+          [[2, 2, 4], [4, 5, 1]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[31, 34, 36, 40], [98, 100, 104, 106], [80, 85, 89, 94]]
+          >>> game = time_per_word(p, ['baker', 'circumscribable', 'apostrophic'])
+          >>> all_words(game)
+          ['baker', 'circumscribable', 'apostrophic']
+          >>> all_times(game)
+          [[3, 2, 4], [2, 4, 2], [5, 4, 5]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[0, 1, 5]]
+          >>> game = time_per_word(p, ['tractioneering', 'contestant'])
+          >>> all_words(game)
+          ['tractioneering', 'contestant']
+          >>> all_times(game)
+          [[1, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[78, 79, 81]]
+          >>> game = time_per_word(p, ['insecurity', 'afterturn'])
+          >>> all_words(game)
+          ['insecurity', 'afterturn']
+          >>> all_times(game)
+          [[1, 2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[51, 56, 60]]
+          >>> game = time_per_word(p, ['blankbook', 'subjectiveness'])
+          >>> all_words(game)
+          ['blankbook', 'subjectiveness']
+          >>> all_times(game)
+          [[5, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[9, 13, 15, 20, 22]]
+          >>> game = time_per_word(p, ['ophiophagous', 'rice', 'piousness', 'vibrissae'])
+          >>> all_words(game)
+          ['ophiophagous', 'rice', 'piousness', 'vibrissae']
+          >>> all_times(game)
+          [[4, 2, 5, 2]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[9, 14, 15, 18, 19, 23, 27]]
+          >>> game = time_per_word(p, ['civicism', 'belletrist', 'vegetocarbonaceous', 'woodchuck', 'phacitis', 'warehouseful'])
+          >>> all_words(game)
+          ['civicism', 'belletrist', 'vegetocarbonaceous', 'woodchuck', 'phacitis', 'warehouseful']
+          >>> all_times(game)
+          [[5, 1, 3, 1, 4, 4]]
+          """,
+          'hidden': False,
+          'locked': False
+        },
+        {
+          'code': r"""
+          >>> p = [[79]]
+          >>> game = time_per_word(p, [])
+          >>> all_words(game)
+          []
+          >>> all_times(game)
           [[]]
           """,
           'hidden': False,
@@ -294,630 +1100,132 @@ test = {
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 37), word_time('justly' , 37.25), word_time('contralto' , 37.75), word_time('erythematous' , 38.0), word_time('intromissive' , 38.333333333333336), word_time('tanglement' , 38.53333333333334)], [word_time('START', 37), word_time('justly' , 37.5), word_time('contralto' , 38.0), word_time('erythematous' , 38.333333333333336), word_time('intromissive' , 38.53333333333334), word_time('tanglement' , 38.73333333333334)]]
-          >>> fastest_words(p, 0.02631578947368421)
-          [['justly', 'contralto', 'erythematous', 'tanglement'], ['contralto', 'intromissive', 'tanglement']]
+          >>> p = [[43, 46, 49, 50], [58, 63, 67, 72], [8, 10, 11, 13]]
+          >>> game = time_per_word(p, ['discover', 'fixative', 'suprasphanoidal'])
+          >>> all_words(game)
+          ['discover', 'fixative', 'suprasphanoidal']
+          >>> all_times(game)
+          [[3, 3, 1], [5, 4, 5], [2, 1, 2]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 82), word_time('uptree' , 82.2), word_time('underlinen' , 82.53333333333333), word_time('an' , 82.86666666666666), word_time('quinqueloculine' , 83.19999999999999), word_time('demonstrativeness' , 83.53333333333332), word_time('epee' , 84.03333333333332)]]
-          >>> fastest_words(p, 0.011363636363636364)
-          [['uptree', 'underlinen', 'an', 'quinqueloculine', 'demonstrativeness', 'epee']]
+          >>> p = [[58, 61, 64, 65]]
+          >>> game = time_per_word(p, ['semicompact', 'philopolemic', 'unharnessed'])
+          >>> all_words(game)
+          ['semicompact', 'philopolemic', 'unharnessed']
+          >>> all_times(game)
+          [[3, 3, 1]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 87), word_time('draughtmanship' , 87.5), word_time('arboriform' , 87.83333333333333), word_time('oppugner' , 88.03333333333333), word_time('nucleonics' , 88.53333333333333), word_time('reducer' , 89.03333333333333), word_time('watered' , 89.28333333333333)], [word_time('START', 87), word_time('draughtmanship' , 87.25), word_time('arboriform' , 87.75), word_time('oppugner' , 88.0), word_time('nucleonics' , 88.25), word_time('reducer' , 88.58333333333333), word_time('watered' , 89.58333333333333)]]
-          >>> fastest_words(p, 0.022727272727272728)
-          [['arboriform', 'oppugner', 'watered'], ['draughtmanship', 'nucleonics', 'reducer']]
+          >>> p = [[93, 96, 101], [29, 34, 36], [36, 39, 41]]
+          >>> game = time_per_word(p, ['tom', 'spurgall'])
+          >>> all_words(game)
+          ['tom', 'spurgall']
+          >>> all_times(game)
+          [[3, 5], [5, 2], [3, 2]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 20), word_time('retinopapilitis' , 20.25), word_time('unabsolvedness' , 20.5)]]
-          >>> fastest_words(p, 0.125)
-          [['retinopapilitis', 'unabsolvedness']]
+          >>> p = [[11, 16, 19], [70, 73, 75], [15, 18, 23]]
+          >>> game = time_per_word(p, ['insubordination', 'bovicide'])
+          >>> all_words(game)
+          ['insubordination', 'bovicide']
+          >>> all_times(game)
+          [[5, 3], [3, 2], [3, 5]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 33), word_time('ratiocinate' , 33.333333333333336), word_time('pasquinader' , 33.833333333333336), word_time('gamecube' , 34.833333333333336)]]
-          >>> fastest_words(p, 0.011627906976744186)
-          [['ratiocinate', 'pasquinader', 'gamecube']]
+          >>> p = [[48, 53, 55, 57, 59, 60], [77, 82, 86, 89, 90, 91]]
+          >>> game = time_per_word(p, ['gong', 'spondylium', 'agrammatism', 'yad', 'unintrusted'])
+          >>> all_words(game)
+          ['gong', 'spondylium', 'agrammatism', 'yad', 'unintrusted']
+          >>> all_times(game)
+          [[5, 2, 2, 2, 1], [5, 4, 3, 1, 1]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 73), word_time('didst' , 74.0)]]
-          >>> fastest_words(p, 0.0625)
-          [['didst']]
+          >>> p = [[22, 26, 27, 30], [93, 94, 97, 102], [56, 57, 59, 61]]
+          >>> game = time_per_word(p, ['honolulu', 'tegularly', 'kilnrib'])
+          >>> all_words(game)
+          ['honolulu', 'tegularly', 'kilnrib']
+          >>> all_times(game)
+          [[4, 1, 3], [1, 3, 5], [1, 2, 2]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 5)], [word_time('START', 5)], [word_time('START', 5)]]
-          >>> fastest_words(p, 0.010101010101010102)
-          [[], [], []]
+          >>> p = [[97, 100, 105, 109, 113, 118, 123], [96, 97, 101, 105, 110, 112, 116], [20, 22, 26, 31, 34, 35, 38]]
+          >>> game = time_per_word(p, ['succeed', 'dumminess', 'tedder', 'bobsleigh', 'tenendum', 'slatternness'])
+          >>> all_words(game)
+          ['succeed', 'dumminess', 'tedder', 'bobsleigh', 'tenendum', 'slatternness']
+          >>> all_times(game)
+          [[3, 5, 4, 4, 5, 5], [1, 4, 4, 5, 2, 4], [2, 4, 5, 3, 1, 3]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 15), word_time('undersweep' , 16.0), word_time('sportswomanly' , 17.0), word_time('nonlocal' , 18.0), word_time('lorate' , 18.25), word_time('histopathologist' , 18.583333333333332)]]
-          >>> fastest_words(p, 0.012987012987012988)
-          [['undersweep', 'sportswomanly', 'nonlocal', 'lorate', 'histopathologist']]
+          >>> p = [[97, 101, 104, 109, 111], [66, 68, 73, 76, 79]]
+          >>> game = time_per_word(p, ['biventer', 'fugle', 'estimated', 'racinglike'])
+          >>> all_words(game)
+          ['biventer', 'fugle', 'estimated', 'racinglike']
+          >>> all_times(game)
+          [[4, 3, 5, 2], [2, 5, 3, 3]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 33), word_time('undimerous' , 33.5), word_time('engrainedly' , 33.7), word_time('aschistic' , 34.03333333333334)], [word_time('START', 33), word_time('undimerous' , 33.5), word_time('engrainedly' , 34.5), word_time('aschistic' , 35.0)]]
-          >>> fastest_words(p, 0.013157894736842105)
-          [['undimerous', 'engrainedly', 'aschistic'], ['undimerous']]
+          >>> p = [[71, 75, 76], [28, 33, 36]]
+          >>> game = time_per_word(p, ['gangliar', 'imbonity'])
+          >>> all_words(game)
+          ['gangliar', 'imbonity']
+          >>> all_times(game)
+          [[4, 1], [5, 3]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 9), word_time('borscht' , 9.2), word_time('spectator' , 9.45), word_time('semiperimetry' , 9.7), word_time('decider' , 9.899999999999999)]]
-          >>> fastest_words(p, 0.023809523809523808)
-          [['borscht', 'spectator', 'semiperimetry', 'decider']]
+          >>> p = [[65, 67, 70], [68, 71, 73]]
+          >>> game = time_per_word(p, ['oculigerous', 'wavement'])
+          >>> all_words(game)
+          ['oculigerous', 'wavement']
+          >>> all_times(game)
+          [[2, 3], [3, 2]]
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          >>> p = [[word_time('START', 70)], [word_time('START', 70)]]
-          >>> fastest_words(p, 0.010869565217391304)
-          [[], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 64), word_time('mamelonation' , 64.5), word_time('delegable' , 64.83333333333333)]]
-          >>> fastest_words(p, 0.027777777777777776)
-          [['mamelonation', 'delegable']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 51), word_time('noneffervescent' , 51.2), word_time('metasaccharinic' , 51.53333333333334)], [word_time('START', 51), word_time('noneffervescent' , 51.5), word_time('metasaccharinic' , 51.833333333333336)], [word_time('START', 51), word_time('noneffervescent' , 51.333333333333336), word_time('metasaccharinic' , 51.53333333333334)]]
-          >>> fastest_words(p, 0.010752688172043012)
-          [['noneffervescent'], [], ['metasaccharinic']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 68), word_time('overstress' , 68.33333333333333), word_time('voicelessness' , 68.58333333333333), word_time('discrepantly' , 68.83333333333333), word_time('bestsellers' , 69.33333333333333), word_time('bibliography' , 69.66666666666666)], [word_time('START', 68), word_time('overstress' , 69.0), word_time('voicelessness' , 69.33333333333333), word_time('discrepantly' , 69.58333333333333), word_time('bestsellers' , 70.08333333333333), word_time('bibliography' , 70.33333333333333)]]
-          >>> fastest_words(p, 0.015384615384615385)
-          [['overstress', 'voicelessness', 'discrepantly', 'bestsellers'], ['discrepantly', 'bestsellers', 'bibliography']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 20), word_time('crowkeeper' , 20.333333333333332), word_time('symphyllous' , 20.833333333333332), word_time('narratress' , 21.083333333333332), word_time('periplegmatic' , 21.28333333333333), word_time('wantonlike' , 21.78333333333333)], [word_time('START', 20), word_time('crowkeeper' , 21.0), word_time('symphyllous' , 21.25), word_time('narratress' , 21.5), word_time('periplegmatic' , 22.0), word_time('wantonlike' , 23.0)]]
-          >>> fastest_words(p, 0.027777777777777776)
-          [['crowkeeper', 'narratress', 'periplegmatic', 'wantonlike'], ['symphyllous', 'narratress']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 75)]]
-          >>> fastest_words(p, 0.03225806451612903)
-          [[]]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 61), word_time('heriot' , 61.2), word_time('supersalient' , 61.45), word_time('hate' , 62.45), word_time('septation' , 62.7)]]
-          >>> fastest_words(p, 0.014285714285714285)
-          [['heriot', 'supersalient', 'hate', 'septation']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 7)]]
-          >>> fastest_words(p, 0.14285714285714285)
-          [[]]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 0), word_time('colchicine' , 0.3333333333333333), word_time('zincographical' , 1.3333333333333333), word_time('misphrase' , 2.333333333333333), word_time('subspecifically' , 2.533333333333333)], [word_time('START', 0), word_time('colchicine' , 0.2), word_time('zincographical' , 0.4), word_time('misphrase' , 0.65), word_time('subspecifically' , 0.9833333333333334)]]
-          >>> fastest_words(p, 0.019230769230769232)
-          [['subspecifically'], ['colchicine', 'zincographical', 'misphrase']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 42), word_time('apodictically' , 42.2), word_time('villages' , 42.7), word_time('algebra' , 43.03333333333334), word_time('uprid' , 43.23333333333334), word_time('disadvise' , 43.433333333333344)]]
-          >>> fastest_words(p, 0.021739130434782608)
-          [['apodictically', 'villages', 'algebra', 'uprid', 'disadvise']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 48), word_time('dogmaticalness' , 48.2)], [word_time('START', 48), word_time('dogmaticalness' , 48.333333333333336)]]
-          >>> fastest_words(p, 0.010309278350515464)
-          [['dogmaticalness'], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 57), word_time('saddlelike' , 57.2), word_time('postlachrymal' , 57.400000000000006), word_time('antetype' , 57.650000000000006), word_time('autocinesis' , 57.85000000000001), word_time('feces' , 58.05000000000001)], [word_time('START', 57), word_time('saddlelike' , 57.2), word_time('postlachrymal' , 57.400000000000006), word_time('antetype' , 57.650000000000006), word_time('autocinesis' , 57.98333333333334), word_time('feces' , 58.31666666666668)]]
-          >>> fastest_words(p, 0.010309278350515464)
-          [['saddlelike', 'postlachrymal', 'antetype', 'autocinesis', 'feces'], ['saddlelike', 'postlachrymal', 'antetype']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 28), word_time('dispensatorily' , 28.25), word_time('manganapatite' , 28.5), word_time('gatemaker' , 29.0), word_time('hydrosulphocyanic' , 29.5), word_time('drugshop' , 30.5), word_time('caracolite' , 31.5)], [word_time('START', 28), word_time('dispensatorily' , 28.333333333333332), word_time('manganapatite' , 28.583333333333332), word_time('gatemaker' , 28.833333333333332), word_time('hydrosulphocyanic' , 29.333333333333332), word_time('drugshop' , 29.583333333333332), word_time('caracolite' , 29.916666666666664)]]
-          >>> fastest_words(p, 0.08333333333333333)
-          [['dispensatorily', 'manganapatite', 'hydrosulphocyanic'], ['dispensatorily', 'manganapatite', 'gatemaker', 'hydrosulphocyanic', 'drugshop', 'caracolite']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 25), word_time('stirps' , 26.0), word_time('waverous' , 26.333333333333332), word_time('qualifying' , 26.833333333333332), word_time('sexuparous' , 27.166666666666664), word_time('realmless' , 27.666666666666664)], [word_time('START', 25), word_time('stirps' , 26.0), word_time('waverous' , 26.2), word_time('qualifying' , 26.53333333333333), word_time('sexuparous' , 26.866666666666664), word_time('realmless' , 27.116666666666664)]]
-          >>> fastest_words(p, 0.03333333333333333)
-          [['stirps', 'sexuparous'], ['stirps', 'waverous', 'qualifying', 'sexuparous', 'realmless']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 69)], [word_time('START', 69)]]
-          >>> fastest_words(p, 0.3333333333333333)
-          [[], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 77), word_time('oxhorn' , 78.0), word_time('overskim' , 78.25), word_time('polemicist' , 78.45), word_time('injure' , 79.45), word_time('hygrophaneity' , 79.95)]]
-          >>> fastest_words(p, 0.037037037037037035)
-          [['oxhorn', 'overskim', 'polemicist', 'injure', 'hygrophaneity']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 85), word_time('relativeness' , 85.5), word_time('solivagant' , 85.75)]]
-          >>> fastest_words(p, 0.0625)
-          [['relativeness', 'solivagant']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 79), word_time('waterhorse' , 79.5), word_time('antisubstance' , 79.75), word_time('yucker' , 80.25), word_time('samely' , 80.75), word_time('dargsman' , 81.75), word_time('heterotopous' , 81.95)], [word_time('START', 79), word_time('waterhorse' , 80.0), word_time('antisubstance' , 81.0), word_time('yucker' , 81.33333333333333), word_time('samely' , 81.66666666666666), word_time('dargsman' , 82.16666666666666), word_time('heterotopous' , 82.66666666666666)]]
-          >>> fastest_words(p, 0.011494252873563218)
-          [['waterhorse', 'antisubstance', 'heterotopous'], ['yucker', 'samely', 'dargsman']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 35), word_time('restrainedness' , 35.2), word_time('revivement' , 35.53333333333334), word_time('tron' , 35.866666666666674), word_time('interpretably' , 36.116666666666674), word_time('runkly' , 36.31666666666668), word_time('ninebark' , 37.31666666666668)], [word_time('START', 35), word_time('restrainedness' , 35.2), word_time('revivement' , 35.400000000000006), word_time('tron' , 36.400000000000006), word_time('interpretably' , 36.650000000000006), word_time('runkly' , 36.85000000000001), word_time('ninebark' , 37.35000000000001)]]
-          >>> fastest_words(p, 0.030303030303030304)
-          [['restrainedness', 'tron', 'interpretably', 'runkly'], ['restrainedness', 'revivement', 'interpretably', 'runkly', 'ninebark']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 49), word_time('rangership' , 50.0), word_time('wheatstalk' , 51.0), word_time('nonprofession' , 51.5)], [word_time('START', 49), word_time('rangership' , 49.25), word_time('wheatstalk' , 49.5), word_time('nonprofession' , 50.5)]]
-          >>> fastest_words(p, 0.022222222222222223)
-          [['nonprofession'], ['rangership', 'wheatstalk']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 77), word_time('ripe' , 78.0), word_time('spatuliform' , 78.33333333333333)], [word_time('START', 77), word_time('ripe' , 77.5), word_time('spatuliform' , 78.0)], [word_time('START', 77), word_time('ripe' , 77.5), word_time('spatuliform' , 77.83333333333333)]]
-          >>> fastest_words(p, 0.015151515151515152)
-          [['spatuliform'], ['ripe'], ['ripe', 'spatuliform']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 99)], [word_time('START', 99)], [word_time('START', 99)]]
-          >>> fastest_words(p, 0.05263157894736842)
-          [[], [], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 18), word_time('exampleless' , 18.25)], [word_time('START', 18), word_time('exampleless' , 18.333333333333332)]]
-          >>> fastest_words(p, 0.04)
-          [['exampleless'], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 44)], [word_time('START', 44)], [word_time('START', 44)]]
-          >>> fastest_words(p, 0.08333333333333333)
-          [[], [], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 68), word_time('overfearful' , 68.25)], [word_time('START', 68), word_time('overfearful' , 69.0)], [word_time('START', 68), word_time('overfearful' , 69.0)]]
-          >>> fastest_words(p, 0.02564102564102564)
-          [['overfearful'], [], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 46), word_time('weaponshowing' , 46.5), word_time('rhombohedra' , 47.5), word_time('sparger' , 48.0), word_time('pessomancy' , 49.0), word_time('wearyingly' , 49.5)]]
-          >>> fastest_words(p, 0.015625)
-          [['weaponshowing', 'rhombohedra', 'sparger', 'pessomancy', 'wearyingly']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 20), word_time('phalacrocoracine' , 21.0), word_time('taxeme' , 21.333333333333332), word_time('reedless' , 21.666666666666664), word_time('winery' , 22.666666666666664), word_time('token' , 23.666666666666664)], [word_time('START', 20), word_time('phalacrocoracine' , 20.25), word_time('taxeme' , 20.583333333333332), word_time('reedless' , 20.916666666666664), word_time('winery' , 21.166666666666664), word_time('token' , 22.166666666666664)], [word_time('START', 20), word_time('phalacrocoracine' , 20.25), word_time('taxeme' , 21.25), word_time('reedless' , 21.583333333333332), word_time('winery' , 21.78333333333333), word_time('token' , 22.28333333333333)]]
-          >>> fastest_words(p, 0.01639344262295082)
-          [['taxeme', 'reedless'], ['phalacrocoracine', 'taxeme', 'reedless'], ['phalacrocoracine', 'reedless', 'winery', 'token']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 67), word_time('sparrowcide' , 67.5), word_time('salubrious' , 67.75), word_time('untactful' , 68.08333333333333), word_time('kava' , 68.33333333333333), word_time('japanese' , 68.83333333333333)], [word_time('START', 67), word_time('sparrowcide' , 67.25), word_time('salubrious' , 67.45), word_time('untactful' , 67.78333333333333), word_time('kava' , 68.78333333333333), word_time('japanese' , 69.03333333333333)], [word_time('START', 67), word_time('sparrowcide' , 68.0), word_time('salubrious' , 68.5), word_time('untactful' , 68.83333333333333), word_time('kava' , 69.16666666666666), word_time('japanese' , 69.49999999999999)]]
-          >>> fastest_words(p, 0.018518518518518517)
-          [['untactful', 'kava'], ['sparrowcide', 'salubrious', 'untactful', 'japanese'], ['untactful']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 63), word_time('galvanomagnetic' , 63.2), word_time('loir' , 64.2)]]
-          >>> fastest_words(p, 0.025)
-          [['galvanomagnetic', 'loir']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 54), word_time('pneumoperitonitis' , 54.5), word_time('balaenoidean' , 55.5), word_time('strawbreadth' , 56.5)], [word_time('START', 54), word_time('pneumoperitonitis' , 54.5), word_time('balaenoidean' , 55.0), word_time('strawbreadth' , 56.0)]]
-          >>> fastest_words(p, 0.013157894736842105)
-          [['pneumoperitonitis', 'strawbreadth'], ['pneumoperitonitis', 'balaenoidean', 'strawbreadth']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 78)], [word_time('START', 78)], [word_time('START', 78)]]
-          >>> fastest_words(p, 0.011494252873563218)
-          [[], [], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 45)]]
-          >>> fastest_words(p, 0.08333333333333333)
-          [[]]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 88), word_time('wheerikins' , 88.33333333333333), word_time('uncrushed' , 89.33333333333333)], [word_time('START', 88), word_time('wheerikins' , 88.2), word_time('uncrushed' , 89.2)], [word_time('START', 88), word_time('wheerikins' , 89.0), word_time('uncrushed' , 89.2)]]
-          >>> fastest_words(p, 0.05)
-          [[], ['wheerikins'], ['uncrushed']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 22), word_time('sterneber' , 22.5), word_time('nonappendicular' , 22.7)], [word_time('START', 22), word_time('sterneber' , 22.333333333333332), word_time('nonappendicular' , 22.53333333333333)], [word_time('START', 22), word_time('sterneber' , 22.5), word_time('nonappendicular' , 22.75)]]
-          >>> fastest_words(p, 0.05263157894736842)
-          [['nonappendicular'], ['sterneber', 'nonappendicular'], ['nonappendicular']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 30), word_time('achete' , 30.2)], [word_time('START', 30), word_time('achete' , 30.5)]]
-          >>> fastest_words(p, 0.010869565217391304)
-          [['achete'], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 19)]]
-          >>> fastest_words(p, 0.012195121951219513)
-          [[]]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 33), word_time('untriable' , 34.0), word_time('japan' , 34.2)]]
-          >>> fastest_words(p, 0.125)
-          [['untriable', 'japan']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 87), word_time('vortically' , 88.0), word_time('massicot' , 88.5), word_time('pinite' , 88.7), word_time('barbarian' , 88.95)]]
-          >>> fastest_words(p, 0.010416666666666666)
-          [['vortically', 'massicot', 'pinite', 'barbarian']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 69), word_time('longicorn' , 70.0)]]
-          >>> fastest_words(p, 0.011494252873563218)
-          [['longicorn']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 87), word_time('voluminously' , 88.0), word_time('hydroferrocyanate' , 88.33333333333333), word_time('canthotomy' , 88.66666666666666)], [word_time('START', 87), word_time('voluminously' , 87.5), word_time('hydroferrocyanate' , 87.75), word_time('canthotomy' , 87.95)], [word_time('START', 87), word_time('voluminously' , 87.5), word_time('hydroferrocyanate' , 87.83333333333333), word_time('canthotomy' , 88.33333333333333)]]
-          >>> fastest_words(p, 0.016129032258064516)
-          [[], ['voluminously', 'hydroferrocyanate', 'canthotomy'], ['voluminously']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 47), word_time('plastogamy' , 47.25), word_time('grumpily' , 47.45), word_time('tease' , 47.95)], [word_time('START', 47), word_time('plastogamy' , 47.5), word_time('grumpily' , 48.5), word_time('tease' , 48.7)], [word_time('START', 47), word_time('plastogamy' , 47.333333333333336), word_time('grumpily' , 47.833333333333336), word_time('tease' , 48.16666666666667)]]
-          >>> fastest_words(p, 0.01639344262295082)
-          [['plastogamy', 'grumpily'], ['tease'], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 67), word_time('productivity' , 67.33333333333333), word_time('proclisis' , 67.83333333333333), word_time('expansion' , 68.08333333333333), word_time('european' , 68.58333333333333), word_time('instantly' , 68.78333333333333), word_time('draughts' , 69.03333333333333)]]
-          >>> fastest_words(p, 0.015151515151515152)
-          [['productivity', 'proclisis', 'expansion', 'european', 'instantly', 'draughts']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 3), word_time('nap' , 3.3333333333333335), word_time('materialistical' , 3.5333333333333337), word_time('shrag' , 3.7833333333333337), word_time('nestle' , 4.033333333333333), word_time('xanthopicrin' , 4.233333333333333)], [word_time('START', 3), word_time('nap' , 3.5), word_time('materialistical' , 4.0), word_time('shrag' , 4.25), word_time('nestle' , 4.75), word_time('xanthopicrin' , 5.75)]]
-          >>> fastest_words(p, 0.014925373134328358)
-          [['nap', 'materialistical', 'shrag', 'nestle', 'xanthopicrin'], ['shrag']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 82)]]
-          >>> fastest_words(p, 0.041666666666666664)
-          [[]]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 42), word_time('spondylarthritis' , 42.333333333333336), word_time('thin' , 42.66666666666667), word_time('osseous' , 42.866666666666674), word_time('controllable' , 43.366666666666674), word_time('preinvest' , 43.866666666666674)]]
-          >>> fastest_words(p, 0.011111111111111112)
-          [['spondylarthritis', 'thin', 'osseous', 'controllable', 'preinvest']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 32), word_time('yoicks' , 32.333333333333336), word_time('filcher' , 32.833333333333336), word_time('caddle' , 33.833333333333336)]]
-          >>> fastest_words(p, 0.07142857142857142)
-          [['yoicks', 'filcher', 'caddle']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 20), word_time('vibrissae' , 20.2), word_time('diplocardiac' , 20.7), word_time('enwind' , 21.2), word_time('clithral' , 21.53333333333333)]]
-          >>> fastest_words(p, 0.010309278350515464)
-          [['vibrissae', 'diplocardiac', 'enwind', 'clithral']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 77), word_time('warehouseful' , 77.33333333333333), word_time('intertwine' , 77.58333333333333), word_time('tickleback' , 78.58333333333333), word_time('wilsomeness' , 78.83333333333333), word_time('heptacolic' , 79.83333333333333), word_time('observedly' , 80.08333333333333)], [word_time('START', 77), word_time('warehouseful' , 78.0), word_time('intertwine' , 79.0), word_time('tickleback' , 79.25), word_time('wilsomeness' , 79.75), word_time('heptacolic' , 79.95), word_time('observedly' , 80.28333333333333)], [word_time('START', 77), word_time('warehouseful' , 77.25), word_time('intertwine' , 77.5), word_time('tickleback' , 77.83333333333333), word_time('wilsomeness' , 78.08333333333333), word_time('heptacolic' , 78.28333333333333), word_time('observedly' , 78.78333333333333)]]
-          >>> fastest_words(p, 0.016666666666666666)
-          [['intertwine', 'wilsomeness', 'observedly'], ['tickleback', 'heptacolic'], ['warehouseful', 'intertwine', 'wilsomeness', 'heptacolic']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 88), word_time('dicrotic' , 88.5), word_time('tressured' , 88.7)], [word_time('START', 88), word_time('dicrotic' , 89.0), word_time('tressured' , 89.33333333333333)]]
-          >>> fastest_words(p, 0.030303030303030304)
-          [['dicrotic', 'tressured'], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 19), word_time('thickbrained' , 19.333333333333332), word_time('pharyngographic' , 19.583333333333332), word_time('punch' , 20.583333333333332), word_time('rhabdomancer' , 21.583333333333332), word_time('tubemaking' , 21.78333333333333)]]
-          >>> fastest_words(p, 0.03225806451612903)
-          [['thickbrained', 'pharyngographic', 'punch', 'rhabdomancer', 'tubemaking']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 91), word_time('resolicit' , 91.33333333333333), word_time('gangsman' , 91.58333333333333), word_time('tailorize' , 91.91666666666666)], [word_time('START', 91), word_time('resolicit' , 91.33333333333333), word_time('gangsman' , 91.58333333333333), word_time('tailorize' , 91.91666666666666)], [word_time('START', 91), word_time('resolicit' , 92.0), word_time('gangsman' , 93.0), word_time('tailorize' , 93.5)]]
-          >>> fastest_words(p, 0.03333333333333333)
-          [['resolicit', 'gangsman', 'tailorize'], ['resolicit', 'gangsman', 'tailorize'], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 50), word_time('rampagious' , 50.2), word_time('coralberry' , 50.53333333333334)], [word_time('START', 50), word_time('rampagious' , 50.333333333333336), word_time('coralberry' , 50.53333333333334)], [word_time('START', 50), word_time('rampagious' , 50.2), word_time('coralberry' , 50.7)]]
-          >>> fastest_words(p, 0.02127659574468085)
-          [['rampagious'], ['coralberry'], ['rampagious']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 42), word_time('untailorly' , 42.333333333333336), word_time('untewed' , 42.53333333333334), word_time('planoorbicular' , 42.78333333333334)], [word_time('START', 42), word_time('untailorly' , 42.333333333333336), word_time('untewed' , 42.833333333333336), word_time('planoorbicular' , 43.833333333333336)], [word_time('START', 42), word_time('untailorly' , 42.5), word_time('untewed' , 43.5), word_time('planoorbicular' , 43.833333333333336)]]
-          >>> fastest_words(p, 0.014705882352941176)
-          [['untailorly', 'untewed', 'planoorbicular'], ['untailorly'], []]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 37)]]
-          >>> fastest_words(p, 0.010869565217391304)
-          [[]]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 59), word_time('sulphonalism' , 59.25), word_time('indignly' , 60.25), word_time('phylogeny' , 61.25), word_time('indicial' , 62.25), word_time('tepidarium' , 62.583333333333336)]]
-          >>> fastest_words(p, 0.012048192771084338)
-          [['sulphonalism', 'indignly', 'phylogeny', 'indicial', 'tepidarium']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 22), word_time('tenendum' , 22.2), word_time('slatternness' , 22.7), word_time('longsomeness' , 22.95), word_time('nutpecker' , 23.15), word_time('fatalistically' , 23.48333333333333), word_time('buccobranchial' , 24.48333333333333)], [word_time('START', 22), word_time('tenendum' , 22.333333333333332), word_time('slatternness' , 22.53333333333333), word_time('longsomeness' , 22.78333333333333), word_time('nutpecker' , 23.03333333333333), word_time('fatalistically' , 23.23333333333333), word_time('buccobranchial' , 23.43333333333333)], [word_time('START', 22), word_time('tenendum' , 23.0), word_time('slatternness' , 23.25), word_time('longsomeness' , 23.5), word_time('nutpecker' , 23.7), word_time('fatalistically' , 24.2), word_time('buccobranchial' , 24.45)]]
-          >>> fastest_words(p, 0.023809523809523808)
-          [['tenendum', 'longsomeness', 'nutpecker'], ['slatternness', 'longsomeness', 'fatalistically', 'buccobranchial'], ['longsomeness', 'nutpecker']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 84), word_time('racinglike' , 84.25), word_time('clavelization' , 84.45), word_time('cooing' , 84.95), word_time('pedestrian' , 85.15)], [word_time('START', 84), word_time('racinglike' , 84.5), word_time('clavelization' , 84.7), word_time('cooing' , 85.03333333333333), word_time('pedestrian' , 85.53333333333333)], [word_time('START', 84), word_time('racinglike' , 84.33333333333333), word_time('clavelization' , 84.66666666666666), word_time('cooing' , 84.91666666666666), word_time('pedestrian' , 85.41666666666666)]]
-          >>> fastest_words(p, 0.01098901098901099)
-          [['racinglike', 'clavelization', 'pedestrian'], ['clavelization'], ['cooing']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 90), word_time('comendite' , 90.25), word_time('communicableness' , 91.25), word_time('pullus' , 91.5)], [word_time('START', 90), word_time('comendite' , 90.2), word_time('communicableness' , 90.53333333333333), word_time('pullus' , 90.73333333333333)]]
-          >>> fastest_words(p, 0.027777777777777776)
-          [[], ['comendite', 'communicableness', 'pullus']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 90), word_time('unforgeability' , 90.5), word_time('antiharmonist' , 90.83333333333333), word_time('diasynthesis' , 91.16666666666666)]]
-          >>> fastest_words(p, 0.023255813953488372)
-          [['unforgeability', 'antiharmonist', 'diasynthesis']]
-          """,
-          'hidden': False,
-          'locked': False
-        },
-        {
-          'code': r"""
-          >>> p = [[word_time('START', 1)], [word_time('START', 1)]]
-          >>> fastest_words(p, 0.027777777777777776)
-          [[], []]
+          >>> p = [[40, 41], [73, 76]]
+          >>> game = time_per_word(p, ['autoimmunization'])
+          >>> all_words(game)
+          ['autoimmunization']
+          >>> all_times(game)
+          [[1], [3]]
           """,
           'hidden': False,
           'locked': False
@@ -925,7 +1233,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from typing import word_time, fastest_words
+      >>> from cats import game, game_string, time_per_word, all_words, all_times, word_at, time
       """,
       'teardown': '',
       'type': 'doctest'
@@ -934,11 +1242,14 @@ test = {
       'cases': [
         {
           'code': r"""
-          >>> test.swap_implementations(typing)
-          >>> p0 = [typing.word_time('START', 0), typing.word_time('What', 0.2), typing.word_time('great', 0.4), typing.word_time('luck', 0.8)]
-          >>> p1 = [typing.word_time('START', 0), typing.word_time('What', 0.6), typing.word_time('great', 0.8), typing.word_time('luck', 1.19)]
-          >>> typing.fastest_words([p0, p1])
-          [['What', 'great'], ['great', 'luck']]
+          >>> test.swap_implementations(cats) # Make sure the abstraction barrier isn't crossed!
+          >>> p = [[1, 4, 6, 7], [0, 4, 6, 9]]
+          >>> words = ['This', 'is', 'fun']
+          >>> game = cats.time_per_word(p, words)
+          >>> cats.all_words(game)
+          ['This', 'is', 'fun']
+          >>> cats.all_times(game)
+          [[3, 2, 1], [4, 2, 3]]
           """,
           'hidden': False,
           'locked': False
@@ -946,11 +1257,11 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> import typing
+      >>> import cats
       >>> import tests.abstraction_check as test
       """,
       'teardown': r"""
-      >>> test.restore_implementations(typing)
+      >>> test.restore_implementations(cats)
       """,
       'type': 'doctest'
     }

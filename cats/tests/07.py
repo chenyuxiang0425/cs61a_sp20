@@ -7,27 +7,27 @@ test = {
         {
           'code': r"""
           >>> big_limit = 10
-          >>> edit_diff("wird", "wiry", big_limit)
+          >>> feline_fixes("wird", "wiry", big_limit)
           1
-          >>> edit_diff("wird", "bird", big_limit)
+          >>> feline_fixes("wird", "bird", big_limit)
           1
-          >>> edit_diff("wird", "wir", big_limit)
+          >>> feline_fixes("wird", "wir", big_limit)
           1
-          >>> edit_diff("wird", "bwird", big_limit)
+          >>> feline_fixes("wird", "bwird", big_limit)
           1
-          >>> edit_diff("speling", "spelling", big_limit)
+          >>> feline_fixes("speling", "spelling", big_limit)
           1
-          >>> edit_diff("used", "use", big_limit)
+          >>> feline_fixes("used", "use", big_limit)
           1
-          >>> edit_diff("hash", "ash", big_limit)
+          >>> feline_fixes("hash", "ash", big_limit)
           1
-          >>> edit_diff("ash", "hash", big_limit)
+          >>> feline_fixes("ash", "hash", big_limit)
           1
-          >>> edit_diff("roses", "arose", big_limit)     # roses -> aroses -> arose
+          >>> feline_fixes("roses", "arose", big_limit)     # roses -> aroses -> arose
           2
-          >>> edit_diff("tesng", "testing", big_limit)   # tesng -> testng -> testing
+          >>> feline_fixes("tesng", "testing", big_limit)   # tesng -> testng -> testing
           2
-          >>> edit_diff("rlogcul", "logical", big_limit) # rlogcul -> logcul -> logicul -> logical
+          >>> feline_fixes("rlogcul", "logical", big_limit) # rlogcul -> logcul -> logicul -> logical
           3
           """,
           'hidden': False,
@@ -38,13 +38,13 @@ test = {
           >>> small_words_list = ["spell", "nest", "test", "pest", "best", "bird", "wired",
           ...                     "abstraction", "abstract", "wire", "peeling", "gestate",
           ...                     "west", "spelling", "bastion"]
-          >>> autocorrect("speling", small_words_list, edit_diff, 10)
+          >>> autocorrect("speling", small_words_list, feline_fixes, 10)
           'spelling'
-          >>> autocorrect("abstrction", small_words_list, edit_diff, 10)
+          >>> autocorrect("abstrction", small_words_list, feline_fixes, 10)
           'abstraction'
-          >>> autocorrect("wird", small_words_list, edit_diff, 10)
+          >>> autocorrect("wird", small_words_list, feline_fixes, 10)
           'bird'
-          >>> autocorrect("gest", small_words_list, edit_diff, 10)
+          >>> autocorrect("gest", small_words_list, feline_fixes, 10)
           'nest'
           """,
           'hidden': False,
@@ -56,7 +56,7 @@ test = {
           >>> import trace, io
           >>> from contextlib import redirect_stdout
           >>> with io.StringIO() as buf, redirect_stdout(buf):
-          ...     trace.Trace(trace=True).runfunc(edit_diff, "someawe", "awesome", 3)
+          ...     trace.Trace(trace=True).runfunc(feline_fixes, "someawe", "awesome", 3)
           ...     output = buf.getvalue()
           >>> len([line for line in output.split('\n') if 'funcname' in line]) < 1000
           True
@@ -66,7 +66,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('thong', 'thong', 100)
+          >>> feline_fixes('thong', 'thong', 100)
           0
           """,
           'hidden': False,
@@ -74,7 +74,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('place', 'wreat', 100)
+          >>> feline_fixes('place', 'wreat', 100)
           5
           """,
           'hidden': False,
@@ -82,7 +82,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('pray', 'okee', 100)
+          >>> feline_fixes('pray', 'okee', 100)
           4
           """,
           'hidden': False,
@@ -90,7 +90,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('cloit', 'cloit', 100)
+          >>> feline_fixes('cloit', 'cloit', 100)
           0
           """,
           'hidden': False,
@@ -98,7 +98,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('yond', 'snd', 100)
+          >>> feline_fixes('yond', 'snd', 100)
           2
           """,
           'hidden': False,
@@ -106,7 +106,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('tb', 'tb', 100)
+          >>> feline_fixes('tb', 'tb', 100)
           0
           """,
           'hidden': False,
@@ -114,7 +114,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('gobi', 'gobi', 100)
+          >>> feline_fixes('gobi', 'gobi', 100)
           0
           """,
           'hidden': False,
@@ -122,7 +122,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('watap', 'woitap', 100)
+          >>> feline_fixes('watap', 'woitap', 100)
           2
           """,
           'hidden': False,
@@ -130,7 +130,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('baffy', 'btfi', k) > k for k in range(5)])
+          >>> sum([feline_fixes('baffy', 'btfi', k) > k for k in range(5)])
           3
           """,
           'hidden': False,
@@ -138,7 +138,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('else', 'konak', k) > k for k in range(5)])
+          >>> sum([feline_fixes('else', 'konak', k) > k for k in range(5)])
           5
           """,
           'hidden': False,
@@ -146,7 +146,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('zygon', 'jzon', k) > k for k in range(5)])
+          >>> sum([feline_fixes('zygon', 'jzon', k) > k for k in range(5)])
           3
           """,
           'hidden': False,
@@ -154,7 +154,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('lar', 'lar', 100)
+          >>> feline_fixes('lar', 'lar', 100)
           0
           """,
           'hidden': False,
@@ -162,7 +162,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('shop', 'wopd', 100)
+          >>> feline_fixes('shop', 'wopd', 100)
           3
           """,
           'hidden': False,
@@ -170,7 +170,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('pc', 'pc', k) > k for k in range(2)])
+          >>> sum([feline_fixes('pc', 'pc', k) > k for k in range(2)])
           0
           """,
           'hidden': False,
@@ -178,7 +178,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('sail', 'sail', 100)
+          >>> feline_fixes('sail', 'sail', 100)
           0
           """,
           'hidden': False,
@@ -186,7 +186,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('fiber', 'fbk', 100)
+          >>> feline_fixes('fiber', 'fbk', 100)
           3
           """,
           'hidden': False,
@@ -194,7 +194,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('doff', 'def', 100)
+          >>> feline_fixes('doff', 'def', 100)
           2
           """,
           'hidden': False,
@@ -202,7 +202,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('meile', 'mqeile', 100)
+          >>> feline_fixes('meile', 'mqeile', 100)
           1
           """,
           'hidden': False,
@@ -210,7 +210,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('donor', 'doinor', k) > k for k in range(6)])
+          >>> sum([feline_fixes('donor', 'doinor', k) > k for k in range(6)])
           1
           """,
           'hidden': False,
@@ -218,7 +218,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('meet', 'meeu', k) > k for k in range(4)])
+          >>> sum([feline_fixes('meet', 'meeu', k) > k for k in range(4)])
           1
           """,
           'hidden': False,
@@ -226,7 +226,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('tic', 'tih', k) > k for k in range(3)])
+          >>> sum([feline_fixes('tic', 'tih', k) > k for k in range(3)])
           1
           """,
           'hidden': False,
@@ -234,7 +234,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('taft', 'hewer', k) > k for k in range(5)])
+          >>> sum([feline_fixes('taft', 'hewer', k) > k for k in range(5)])
           5
           """,
           'hidden': False,
@@ -242,7 +242,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('moorn', 'toxa', k) > k for k in range(5)])
+          >>> sum([feline_fixes('moorn', 'toxa', k) > k for k in range(5)])
           4
           """,
           'hidden': False,
@@ -250,7 +250,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('hamal', 'hamal', k) > k for k in range(5)])
+          >>> sum([feline_fixes('hamal', 'hamal', k) > k for k in range(5)])
           0
           """,
           'hidden': False,
@@ -258,7 +258,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('pridy', 'dance', 100)
+          >>> feline_fixes('pridy', 'dance', 100)
           5
           """,
           'hidden': False,
@@ -266,7 +266,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('dekko', 'zbk', 100)
+          >>> feline_fixes('dekko', 'zbk', 100)
           4
           """,
           'hidden': False,
@@ -274,7 +274,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('julio', 'juio', k) > k for k in range(5)])
+          >>> sum([feline_fixes('julio', 'juio', k) > k for k in range(5)])
           1
           """,
           'hidden': False,
@@ -282,7 +282,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('boist', 'spume', k) > k for k in range(5)])
+          >>> sum([feline_fixes('boist', 'spume', k) > k for k in range(5)])
           5
           """,
           'hidden': False,
@@ -290,7 +290,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('jail', 'jaila', 100)
+          >>> feline_fixes('jail', 'jaila', 100)
           1
           """,
           'hidden': False,
@@ -298,7 +298,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('cumin', 'goes', 100)
+          >>> feline_fixes('cumin', 'goes', 100)
           5
           """,
           'hidden': False,
@@ -306,7 +306,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('civil', 'whose', k) > k for k in range(5)])
+          >>> sum([feline_fixes('civil', 'whose', k) > k for k in range(5)])
           5
           """,
           'hidden': False,
@@ -314,7 +314,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('stead', 'ny', k) > k for k in range(5)])
+          >>> sum([feline_fixes('stead', 'ny', k) > k for k in range(5)])
           5
           """,
           'hidden': False,
@@ -322,7 +322,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('mikie', 'mdiye', 100)
+          >>> feline_fixes('mikie', 'mdiye', 100)
           3
           """,
           'hidden': False,
@@ -330,7 +330,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('utils', 'utils', k) > k for k in range(5)])
+          >>> sum([feline_fixes('utils', 'utils', k) > k for k in range(5)])
           0
           """,
           'hidden': False,
@@ -338,7 +338,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('nuque', 'nuq', k) > k for k in range(5)])
+          >>> sum([feline_fixes('nuque', 'nuq', k) > k for k in range(5)])
           2
           """,
           'hidden': False,
@@ -346,7 +346,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('chine', 'ziinx', k) > k for k in range(5)])
+          >>> sum([feline_fixes('chine', 'ziinx', k) > k for k in range(5)])
           3
           """,
           'hidden': False,
@@ -354,7 +354,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('tour', 'erase', k) > k for k in range(5)])
+          >>> sum([feline_fixes('tour', 'erase', k) > k for k in range(5)])
           5
           """,
           'hidden': False,
@@ -362,7 +362,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('ak', 'rose', 100)
+          >>> feline_fixes('ak', 'rose', 100)
           4
           """,
           'hidden': False,
@@ -370,7 +370,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('sawah', 'shape', k) > k for k in range(5)])
+          >>> sum([feline_fixes('sawah', 'shape', k) > k for k in range(5)])
           4
           """,
           'hidden': False,
@@ -378,7 +378,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('elb', 'logia', 100)
+          >>> feline_fixes('elb', 'logia', 100)
           5
           """,
           'hidden': False,
@@ -386,7 +386,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('noily', 'oibs', 100)
+          >>> feline_fixes('noily', 'oibs', 100)
           3
           """,
           'hidden': False,
@@ -394,7 +394,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('fluid', 'grad', 100)
+          >>> feline_fixes('fluid', 'grad', 100)
           4
           """,
           'hidden': False,
@@ -402,7 +402,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('titer', 'tskhteur', 100)
+          >>> feline_fixes('titer', 'tskhteur', 100)
           4
           """,
           'hidden': False,
@@ -410,7 +410,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('shood', 'shood', 100)
+          >>> feline_fixes('shood', 'shood', 100)
           0
           """,
           'hidden': False,
@@ -418,7 +418,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('sher', 'xdhe', 100)
+          >>> feline_fixes('sher', 'xdhe', 100)
           3
           """,
           'hidden': False,
@@ -426,7 +426,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('dayal', 'qualm', 100)
+          >>> feline_fixes('dayal', 'qualm', 100)
           4
           """,
           'hidden': False,
@@ -434,7 +434,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('tenai', 'whata', 100)
+          >>> feline_fixes('tenai', 'whata', 100)
           5
           """,
           'hidden': False,
@@ -442,7 +442,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('bow', 'how', 100)
+          >>> feline_fixes('bow', 'how', 100)
           1
           """,
           'hidden': False,
@@ -450,7 +450,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('tony', 'togqq', k) > k for k in range(5)])
+          >>> sum([feline_fixes('tony', 'togqq', k) > k for k in range(5)])
           3
           """,
           'hidden': False,
@@ -458,7 +458,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('baby', 'ton', k) > k for k in range(4)])
+          >>> sum([feline_fixes('baby', 'ton', k) > k for k in range(4)])
           4
           """,
           'hidden': False,
@@ -466,7 +466,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('seron', 'seron', 100)
+          >>> feline_fixes('seron', 'seron', 100)
           0
           """,
           'hidden': False,
@@ -474,7 +474,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('tame', 'tfme', k) > k for k in range(4)])
+          >>> sum([feline_fixes('tame', 'tfme', k) > k for k in range(4)])
           1
           """,
           'hidden': False,
@@ -482,7 +482,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('kissy', 'kisdsxk', 100)
+          >>> feline_fixes('kissy', 'kisdsxk', 100)
           3
           """,
           'hidden': False,
@@ -490,7 +490,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('str', 'st', k) > k for k in range(3)])
+          >>> sum([feline_fixes('str', 'st', k) > k for k in range(3)])
           1
           """,
           'hidden': False,
@@ -498,7 +498,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('enema', 'nemr', 100)
+          >>> feline_fixes('enema', 'nemr', 100)
           2
           """,
           'hidden': False,
@@ -506,7 +506,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('beden', 'beden', 100)
+          >>> feline_fixes('beden', 'beden', 100)
           0
           """,
           'hidden': False,
@@ -514,7 +514,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('coral', 'coral', 100)
+          >>> feline_fixes('coral', 'coral', 100)
           0
           """,
           'hidden': False,
@@ -522,7 +522,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('hack', 'rhack', 100)
+          >>> feline_fixes('hack', 'rhack', 100)
           1
           """,
           'hidden': False,
@@ -530,7 +530,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('alan', 'alan', 100)
+          >>> feline_fixes('alan', 'alan', 100)
           0
           """,
           'hidden': False,
@@ -538,7 +538,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('aru', 'aru', 100)
+          >>> feline_fixes('aru', 'aru', 100)
           0
           """,
           'hidden': False,
@@ -546,7 +546,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('tail', 'taiil', 100)
+          >>> feline_fixes('tail', 'taiil', 100)
           1
           """,
           'hidden': False,
@@ -554,7 +554,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('corps', 'ckcp', 100)
+          >>> feline_fixes('corps', 'ckcp', 100)
           3
           """,
           'hidden': False,
@@ -562,7 +562,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('kazi', 'kazi', 100)
+          >>> feline_fixes('kazi', 'kazi', 100)
           0
           """,
           'hidden': False,
@@ -570,7 +570,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('bone', 'bone', 100)
+          >>> feline_fixes('bone', 'bone', 100)
           0
           """,
           'hidden': False,
@@ -578,7 +578,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('dee', 'derv', k) > k for k in range(4)])
+          >>> sum([feline_fixes('dee', 'derv', k) > k for k in range(4)])
           2
           """,
           'hidden': False,
@@ -586,7 +586,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('fuder', 'fuder', 100)
+          >>> feline_fixes('fuder', 'fuder', 100)
           0
           """,
           'hidden': False,
@@ -594,7 +594,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('harl', 'hhtar', 100)
+          >>> feline_fixes('harl', 'hhtar', 100)
           3
           """,
           'hidden': False,
@@ -602,7 +602,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('def', 'df', 100)
+          >>> feline_fixes('def', 'df', 100)
           1
           """,
           'hidden': False,
@@ -610,7 +610,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('moio', 'yomo', 100)
+          >>> feline_fixes('moio', 'yomo', 100)
           2
           """,
           'hidden': False,
@@ -618,7 +618,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('amnia', 'wna', k) > k for k in range(5)])
+          >>> sum([feline_fixes('amnia', 'wna', k) > k for k in range(5)])
           3
           """,
           'hidden': False,
@@ -626,7 +626,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('pair', 'pair', k) > k for k in range(4)])
+          >>> sum([feline_fixes('pair', 'pair', k) > k for k in range(4)])
           0
           """,
           'hidden': False,
@@ -634,7 +634,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('peai', 'eabi', k) > k for k in range(4)])
+          >>> sum([feline_fixes('peai', 'eabi', k) > k for k in range(4)])
           2
           """,
           'hidden': False,
@@ -642,7 +642,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('pryse', 'prysvf', k) > k for k in range(6)])
+          >>> sum([feline_fixes('pryse', 'prysvf', k) > k for k in range(6)])
           2
           """,
           'hidden': False,
@@ -650,7 +650,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('amelu', 'samp', 100)
+          >>> feline_fixes('amelu', 'samp', 100)
           4
           """,
           'hidden': False,
@@ -658,7 +658,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('weak', 'wk', 100)
+          >>> feline_fixes('weak', 'wk', 100)
           2
           """,
           'hidden': False,
@@ -666,7 +666,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('atelo', 'atelo', 100)
+          >>> feline_fixes('atelo', 'atelo', 100)
           0
           """,
           'hidden': False,
@@ -674,7 +674,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('uc', 'kc', 100)
+          >>> feline_fixes('uc', 'kc', 100)
           1
           """,
           'hidden': False,
@@ -682,7 +682,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('strew', 'jaup', k) > k for k in range(5)])
+          >>> sum([feline_fixes('strew', 'jaup', k) > k for k in range(5)])
           5
           """,
           'hidden': False,
@@ -690,7 +690,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('dome', 'dume', k) > k for k in range(4)])
+          >>> sum([feline_fixes('dome', 'dume', k) > k for k in range(4)])
           1
           """,
           'hidden': False,
@@ -698,7 +698,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('braze', 'sxaze', 100)
+          >>> feline_fixes('braze', 'sxaze', 100)
           2
           """,
           'hidden': False,
@@ -706,7 +706,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('zaman', 'zadpamn', 100)
+          >>> feline_fixes('zaman', 'zadpamn', 100)
           3
           """,
           'hidden': False,
@@ -714,7 +714,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('twank', 'renne', 100)
+          >>> feline_fixes('twank', 'renne', 100)
           4
           """,
           'hidden': False,
@@ -722,7 +722,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('pinky', 'opiky', k) > k for k in range(5)])
+          >>> sum([feline_fixes('pinky', 'opiky', k) > k for k in range(5)])
           2
           """,
           'hidden': False,
@@ -730,7 +730,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('spoke', 'spoke', k) > k for k in range(5)])
+          >>> sum([feline_fixes('spoke', 'spoke', k) > k for k in range(5)])
           0
           """,
           'hidden': False,
@@ -738,7 +738,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('recto', 'recto', k) > k for k in range(5)])
+          >>> sum([feline_fixes('recto', 'recto', k) > k for k in range(5)])
           0
           """,
           'hidden': False,
@@ -746,7 +746,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('ula', 'ula', 100)
+          >>> feline_fixes('ula', 'ula', 100)
           0
           """,
           'hidden': False,
@@ -754,7 +754,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('dame', 'froth', 100)
+          >>> feline_fixes('dame', 'froth', 100)
           5
           """,
           'hidden': False,
@@ -762,7 +762,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('grane', 'griae', 100)
+          >>> feline_fixes('grane', 'griae', 100)
           2
           """,
           'hidden': False,
@@ -770,7 +770,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('cycad', 'cqcad', 100)
+          >>> feline_fixes('cycad', 'cqcad', 100)
           1
           """,
           'hidden': False,
@@ -778,7 +778,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('creem', 'ashreem', 100)
+          >>> feline_fixes('creem', 'ashreem', 100)
           3
           """,
           'hidden': False,
@@ -786,7 +786,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('alky', 'alfy', k) > k for k in range(4)])
+          >>> sum([feline_fixes('alky', 'alfy', k) > k for k in range(4)])
           1
           """,
           'hidden': False,
@@ -794,7 +794,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('finds', 'fid', k) > k for k in range(5)])
+          >>> sum([feline_fixes('finds', 'fid', k) > k for k in range(5)])
           2
           """,
           'hidden': False,
@@ -802,7 +802,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('argot', 'arxgot', k) > k for k in range(6)])
+          >>> sum([feline_fixes('argot', 'arxgot', k) > k for k in range(6)])
           1
           """,
           'hidden': False,
@@ -810,7 +810,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('lc', 'roost', 100)
+          >>> feline_fixes('lc', 'roost', 100)
           5
           """,
           'hidden': False,
@@ -818,7 +818,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('mi', 'iran', 100)
+          >>> feline_fixes('mi', 'iran', 100)
           4
           """,
           'hidden': False,
@@ -826,7 +826,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('faded', 'fabehc', k) > k for k in range(6)])
+          >>> sum([feline_fixes('faded', 'fabehc', k) > k for k in range(6)])
           3
           """,
           'hidden': False,
@@ -834,7 +834,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('slee', 'ble', k) > k for k in range(4)])
+          >>> sum([feline_fixes('slee', 'ble', k) > k for k in range(4)])
           2
           """,
           'hidden': False,
@@ -842,7 +842,7 @@ test = {
         },
         {
           'code': r"""
-          >>> edit_diff('macro', 'macr', 100)
+          >>> feline_fixes('macro', 'macr', 100)
           1
           """,
           'hidden': False,
@@ -850,7 +850,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('bbs', 'bbj', k) > k for k in range(3)])
+          >>> sum([feline_fixes('bbs', 'bbj', k) > k for k in range(3)])
           1
           """,
           'hidden': False,
@@ -858,7 +858,7 @@ test = {
         },
         {
           'code': r"""
-          >>> sum([edit_diff('roud', 'roud', k) > k for k in range(4)])
+          >>> sum([feline_fixes('roud', 'roud', k) > k for k in range(4)])
           0
           """,
           'hidden': False,
@@ -867,7 +867,7 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> from typing import edit_diff, autocorrect
+      >>> from cats import feline_fixes, autocorrect
       """,
       'teardown': '',
       'type': 'doctest'

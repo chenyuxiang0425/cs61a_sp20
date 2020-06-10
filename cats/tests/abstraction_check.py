@@ -51,27 +51,29 @@ class Abstract(object):
     def __hash__(self):
         return id(self)
 
-class WordTime(Abstract):
-    def __init__(self, word, time):
-        self.a, self.b = word, time
+class Game(Abstract):
+    def __init__(self, words, times_per_player):
+        self.a, self.b = words, times_per_player
     def __repr__(self):
-        return '<WordTime {} {}>'.format(self.a, self.b)
+        return '<Game {} {}>'.format(self.a, self.b)
 
-word_time = WordTime
-word = lambda u: u.a
-elapsed_time = lambda u: u.b
+game = Game
+word_at = lambda u, v: u.a[v]
+all_words = lambda u: u.a
+all_times = lambda u: u.b
+time = lambda u, v, w: u.b[v][w]
 
 old = {}
 
 def swap_implementations(impl):
     # save other implementations
-    old['word_time'] = impl.word_time, impl.word, impl.elapsed_time
+    old['game'] = impl.game, impl.word_at, impl.all_words, impl.all_times, impl.time
 
     # save our implementations
-    new_word_time = word_time, word, elapsed_time
+    new_game = game, word_at, all_words, all_times, time
 
     # replace impl's implementations with ours
-    impl.word_time, impl.word, impl.elapsed_time = word_time, word, elapsed_time
+    impl.game, impl.word_at, impl.all_words, impl.all_times, impl.time = game, word_at, all_words, all_times, time
 
 def restore_implementations(impl):
-    impl.word_time, impl.word, impl.elapsed_time = old['word_time']
+    impl.game, impl.word_at, impl.all_words, impl.all_times, impl.time = old['game']
