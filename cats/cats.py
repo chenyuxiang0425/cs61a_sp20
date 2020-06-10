@@ -176,6 +176,19 @@ def report_progress(typed, prompt, id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    curr_count = 0
+    for i in range(len(typed)):
+        if i >= len(prompt):
+            break
+        if typed[i] == prompt[i]:
+            curr_count += 1
+        else:
+            break
+
+    progress = curr_count / len(prompt)
+    message ={'id': id, 'progress': progress}
+    send(message)
+    return progress
     # END PROBLEM 8
 
 
@@ -202,6 +215,18 @@ def time_per_word(times_per_player, words):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    intervals = []
+    for player in times_per_player:
+        intervals.append([player[i]-player[i-1] for i in range(1,len(player))])
+
+        # prev_time = player[0]
+        # player_interval = []
+        # for curr_time in player[1:]:
+        #     player_interval.append(curr_time - prev_time)
+        #     prev_time = curr_time
+        # intervals.append(player_interval)
+
+    return game(words,intervals)
     # END PROBLEM 9
 
 
@@ -217,6 +242,16 @@ def fastest_words(game):
     words = range(len(all_words(game)))    # An index for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    fastest = [[] for _ in players]
+    for word in words:
+        i = 0
+        min_num = float("inf")
+        for player in players:
+            if time(game, player, word) < min_num:
+                i = player
+                min_num = time(game, player, word)
+        fastest[i].append(word_at(game, word))
+    return fastest
     # END PROBLEM 10
 
 
