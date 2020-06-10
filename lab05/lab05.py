@@ -160,14 +160,12 @@ def nut_finder(t):
     True
     """
     "*** YOUR CODE HERE ***"
-    '''
-    if not is_tree(t):
-        return False
-    if label(t):
+    if label(t) =='nut':
         return True
-    else:
-        return nut_finder(branches(t))'''
-
+    for b in branches(t):
+        if nut_finder(b):
+            return True
+    return False
 
 def sprout_leaves(t, values):
     """Sprout new leaves containing the data in values at each leaf in
@@ -203,6 +201,9 @@ def sprout_leaves(t, values):
           2
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return tree(label(t),[tree(v) for v in values])
+    return tree(label(t),[sprout_leaves(b, values) for b in branches(t)])
 
 
 # Tree ADT
@@ -303,7 +304,12 @@ def add_chars(w1, w2):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    if not w1:
+        return w2
+    if w2[0] not in w1:
+        return w2[0] + add_chars(w1, w2[1:])
+    if w2[0] == w1[0]:
+        return add_chars(w1[1:], w2[1:])
 
 def add_trees(t1, t2):
     """
