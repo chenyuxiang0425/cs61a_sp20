@@ -100,6 +100,13 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    if user_word in valid_words:
+        return user_word
+    the_smallest_word = min(valid_words, key = lambda valid_word : diff_function(user_word, valid_word,limit))
+    if diff_function(user_word,the_smallest_word,limit) <= limit:
+        return the_smallest_word
+    else:
+        return user_word
     # END PROBLEM 5
 
 
@@ -109,7 +116,22 @@ def sphinx_swap(start, goal, limit):
     their lengths.
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    def helper(start, goal,curr_length):
+        if curr_length > limit:
+            return limit + 1
+        m, n = len(start), len(goal)
+        if m == 0 and n == 0:
+            return curr_length
+        if m == n:
+            if start[0] != goal[0]:
+                return helper(start[1:],goal[1:],curr_length+1)
+            return helper(start[1:],goal[1:],curr_length)
+        elif m > n:
+            return helper(start[:n],goal,curr_length+m-n)
+        else:
+            return helper(start,goal[:m],curr_length+n-m)
+
+    return helper(start, goal , 0)
     # END PROBLEM 6
 
 
