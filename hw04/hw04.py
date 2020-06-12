@@ -335,10 +335,12 @@ def interval(a, b):
 def lower_bound(x):
     """Return the lower bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[0]
 
 def upper_bound(x):
     """Return the upper bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[1]
 
 def str_interval(x):
     """Return a string representation of interval x.
@@ -355,22 +357,26 @@ def add_interval(x, y):
 def mul_interval(x, y):
     """Return the interval that contains the product of any value in x and any
     value in y."""
-    p1 = x[0] * y[0]
-    p2 = x[0] * y[1]
-    p3 = x[1] * y[0]
-    p4 = x[1] * y[1]
+    p1 = lower_bound(x) * lower_bound(y)
+    p2 = lower_bound(x) * upper_bound(y)
+    p3 = upper_bound(x) * lower_bound(y)
+    p4 = upper_bound(x) * upper_bound(y)
     return [min(p1, p2, p3, p4), max(p1, p2, p3, p4)]
 
 def sub_interval(x, y):
     """Return the interval that contains the difference between any value in x
     and any value in y."""
     "*** YOUR CODE HERE ***"
+    lower = lower_bound(x) - upper_bound(y)
+    upper = upper_bound(x) - lower_bound(y)
+    return interval(lower, upper)
 
 def div_interval(x, y):
     """Return the interval that contains the quotient of any value in x divided by
     any value in y. Division is implemented as the multiplication of x by the
     reciprocal of y."""
     "*** YOUR CODE HERE ***"
+    assert upper_bound(y)*lower_bound(y) > 0
     reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
     return mul_interval(x, reciprocal_y)
 
@@ -396,3 +402,11 @@ def quadratic(x, a, b, c):
     '0 to 10'
     """
     "*** YOUR CODE HERE ***"
+    point = -b/(2*a)
+    point_val =  a*point*point + b*point + c
+    lower_val = a*lower_bound(x)*lower_bound(x)+ b*lower_bound(x) + c
+    upper_val = a*upper_bound(x)*upper_bound(x)+ b*upper_bound(x) + c
+    if point > lower_bound(x) and point < upper_bound(x):
+        return interval(min(lower_val,upper_val,point_val), max(lower_val,upper_val,point_val))
+    else:
+        return interval(min(lower_val,upper_val), max(lower_val,upper_val))

@@ -17,8 +17,8 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> import hw05
-      >>> from hw05 import *
+      >>> import hw04
+      >>> from hw04 import *
       """,
       'teardown': '',
       'type': 'doctest'
@@ -40,15 +40,15 @@ test = {
       ],
       'scored': True,
       'setup': r"""
-      >>> import hw05
-      >>> old_abstraction = hw05.interval, hw05.lower_bound, hw05.upper_bound
-      >>> hw05.interval = lambda a, b: lambda x: a if x == 0 else b
-      >>> hw05.lower_bound = lambda s: s(0)
-      >>> hw05.upper_bound = lambda s: s(1)
-      >>> from hw05 import *
+      >>> import hw04
+      >>> old_abstraction = hw04.interval, hw04.lower_bound, hw04.upper_bound
+      >>> hw04.interval = lambda a, b: lambda x: a if x == 0 else b
+      >>> hw04.lower_bound = lambda s: s(0)
+      >>> hw04.upper_bound = lambda s: s(1)
+      >>> from hw04 import *
       """,
       'teardown': r"""
-      >>> hw05.interval, hw05.lower_bound, hw05.upper_bound = old_abstraction
+      >>> hw04.interval, hw04.lower_bound, hw04.upper_bound = old_abstraction
       """,
       'type': 'doctest'
     }
