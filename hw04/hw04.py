@@ -45,11 +45,13 @@ def planet(size):
     """Construct a planet of some size."""
     assert size > 0
     "*** YOUR CODE HERE ***"
+    return ['planet', size]
 
 def size(w):
     """Select the size of a planet."""
     assert is_planet(w), 'must call size on a planet'
     "*** YOUR CODE HERE ***"
+    return w[1]
 
 def is_planet(w):
     """Whether w is a planet."""
@@ -98,6 +100,9 @@ def balanced(m):
     False
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return True
+    return length(left(m)) * total_weight(end(left(m))) == length(right(m)) * total_weight(end(right(m))) and balanced(end(left(m))) and balanced(end(right(m)))
 
 def totals_tree(m):
     """Return a tree representing the mobile with its total weight at the root.
@@ -125,6 +130,9 @@ def totals_tree(m):
           2
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return [size(m)]
+    return [total_weight(m), totals_tree(end(left(m))), totals_tree(end(right(m)))]
 
 def replace_leaf(t, old, replacement):
     """Returns a new tree where every leaf value equal to old has
@@ -156,6 +164,9 @@ def replace_leaf(t, old, replacement):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t) and old == label(t):
+            return tree(replacement)
+    return tree(label(t),[replace_leaf(branch,old,replacement) for branch in branches(t)])
 
 def make_withdraw(balance, password):
     """Return a password-protected withdraw function.
@@ -186,6 +197,19 @@ def make_withdraw(balance, password):
     True
     """
     "*** YOUR CODE HERE ***"
+    try_pwds = []
+    def withdraw(amount,pwd):
+        nonlocal balance
+        if len(try_pwds) >= 3:
+            return "Your account is locked. Attempts: " + str(try_pwds)
+        if pwd != password:
+            try_pwds.append(pwd)
+            return 'Incorrect password'
+        if amount > balance:
+           return 'Insufficient funds'
+        balance = balance - amount
+        return balance
+    return withdraw
 
 def make_joint(withdraw, old_pass, new_pass):
     """Return a password-protected withdraw function that has joint access to
@@ -226,8 +250,14 @@ def make_joint(withdraw, old_pass, new_pass):
     "Your account is locked. Attempts: ['my', 'secret', 'password']"
     """
     "*** YOUR CODE HERE ***"
-
-
+    account = withdraw(0,old_pass)
+    if type(account) == str:
+        return account
+    def joint(money, pwd):
+        if pwd == new_pass or pwd == old_pass:
+            return withdraw(money, old_pass)  # withdraw is only access to old password
+        return withdraw(money,pwd)
+    return joint
 
 ## Tree Methods ##
 
