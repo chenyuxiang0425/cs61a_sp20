@@ -15,6 +15,13 @@ def make_adder_inc(n):
     11
     """
     "*** YOUR CODE HERE ***"
+    def adder(num):
+        nonlocal n
+        res = n + num
+        n = n + 1
+        return res
+    return adder
+
 def make_fib():
     """Returns a function that returns the next Fibonacci number
     every time it is called.
@@ -39,6 +46,23 @@ def make_fib():
     True
     """
     "*** YOUR CODE HERE ***"
+    n = 0
+    m = 1
+    index = -1
+    def fib():
+        nonlocal n,m,index
+        index += 1
+        if index == 0:
+            return n
+        if index == 1:
+            return m
+
+        res = m + n
+        n = m
+        m = res
+        return res
+    return fib
+
 
 # Generators
 def naturals():
@@ -70,6 +94,13 @@ def scale(it, multiplier):
     [2, 4, 6, 8, 10]
     """
     "*** YOUR CODE HERE ***"
+    # yield from -> generate a iterator
+    # https://www.bartleby.com/questions-and-answers/implement-the-generator-function-scale-s-k-which-yields-elements-of-the-given-iterable-s-scaled-by-k/4022c84e-d055-4b88-9d9f-4833d08fba55
+    yield from map(lambda x:x*multiplier,it)
+
+    # for item in it:
+    #     yield item * multiplier
+
 
 def hailstone(n):
     """
@@ -85,5 +116,11 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    yield n
+    if n != 1:
+        if n & 1:
+            yield from hailstone(3 * n + 1)
+        else:
+            yield from hailstone(n//2)
 
 
