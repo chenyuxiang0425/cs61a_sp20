@@ -39,6 +39,36 @@ class VendingMachine:
     'Here is your soda.'
     """
     "*** YOUR CODE HERE ***"
+    def __init__(self,product,price,remaining = 0,store_money = 0):
+        self.product = product
+        self.price = price
+        self.remaining = remaining
+        self.store_money = store_money
+
+    def vend(self):
+        if self.remaining <= 0:
+            return('Machine is out of stock.')
+        elif  self.price > self.store_money:
+            return('You must add ${0} more funds.'.format(self.price - self.store_money))
+        elif self.price < self.store_money:
+            change = self.store_money-self.price
+            self.store_money = 0
+            self.remaining -=1
+            return('Here is your {0} and ${1} change.'.format(self.product,change))
+        else:
+            self.remaining -=1
+            return('Here is your {0}.'.format(self.product))
+
+    def add_funds(self,price):
+        if self.remaining <= 0:
+            return('Machine is out of stock. Here is your ${0}.'.format(price))
+        else:
+            self.store_money = price+self.store_money
+            return('Current balance: ${0}'.format(self.store_money))
+
+    def restock(self,remaining):
+        self.remaining +=remaining
+        return('Current {0} stock: {1}'.format(self.product,self.remaining))
 
 def preorder(t):
     """Return a list of the entries in this tree in the order that they
@@ -51,6 +81,17 @@ def preorder(t):
     [2, 4, 6]
     """
     "*** YOUR CODE HERE ***"
+    res = []
+    def helper(t):
+        res.append(t.label)
+        for branch in t.branches:
+            helper(branch)
+    helper(t)
+    return res
+
+
+
+
 
 def store_digits(n):
     """Stores the digits of a positive number n in a linked list.
@@ -64,6 +105,13 @@ def store_digits(n):
     Link(8, Link(7, Link(6)))
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return Link(n)
+
+    string_n = str(n)
+    first = int(string_n[0])
+    rest = store_digits(int(string_n[1:]))
+    return Link(first,rest)
 
 def generate_paths(t, value):
     """Yields all possible paths from the root of t to a node with the label value
@@ -101,9 +149,12 @@ def generate_paths(t, value):
     """
 
     "*** YOUR CODE HERE ***"
-
-    for _______________ in _________________:
-        for _______________ in _________________:
+    if t.label == value:
+        yield [t.label]
+    for b in t.branches:
+        generate_branch = generate_paths(b,value)
+        for next in generate_branch:
+            yield [t.label] + next
 
             "*** YOUR CODE HERE ***"
 
