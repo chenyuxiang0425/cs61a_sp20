@@ -422,15 +422,24 @@ class Water(Place):
         its armor to 0."""
         # BEGIN Problem 11
         "*** YOUR CODE HERE ***"
-
+        Place.add_insect(self, insect)
+        if not insect.is_watersafe:
+            insect.reduce_armor(insect.armor)
         # END Problem 11
 
 # BEGIN Problem 12
 # The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+    name = 'Scuba'
+    is_watersafe = True
+    food_cost = 6
+    implemented = True
+    def __init__(self, armor = 1):
+        self.armor = armor
 # END Problem 12
 
 # BEGIN Problem 13
-class QueenAnt(Ant):  # You should change this line
+class QueenAnt(ScubaThrower):  # You should change this line
 # END Problem 13
     """The Queen of the colony. The game is over if a bee enters her place."""
 
@@ -438,12 +447,19 @@ class QueenAnt(Ant):  # You should change this line
     food_cost = 7
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 13
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    is_watersafe = True
+    real_queue = True
     # END Problem 13
 
     def __init__(self, armor=1):
         # BEGIN Problem 13
         "*** YOUR CODE HERE ***"
+        #ScubaThrower.__init__(self, armor)
+        self.armor = armor
+        self.real_queue = QueenAnt.real_queue
+        if self.real_queue:
+            QueenAnt.real_queue = False
         # END Problem 13
 
     def action(self, gamestate):
@@ -454,6 +470,22 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem 13
         "*** YOUR CODE HERE ***"
+        if not self.real_queue:
+            self.reduce_armor(self.armor)
+        else:
+            ScubaThrower.action(self, gamestate)
+            exit_place = self.place.exit
+            while exit_place is not None:  # identify the location
+                curr_ant = exit_place.ant
+                if curr_ant is not None:
+                    if not hasattr(curr_ant,'mark'): # use 'mark' to avoid double damage 2 times
+                        curr_ant.mark = True
+                        curr_ant.damage *= 2
+                    if isinstance(curr_ant,ContainerAnt) and curr_ant.contained_ant is not None:
+                        if not hasattr(curr_ant.contained_ant, 'mark'):
+                            curr_ant.contained_ant.mark = True
+                            curr_ant.contained_ant.damage *= 2
+                exit_place = exit_place.exit
         # END Problem 13
 
     def reduce_armor(self, amount):
@@ -462,7 +494,20 @@ class QueenAnt(Ant):  # You should change this line
         """
         # BEGIN Problem 13
         "*** YOUR CODE HERE ***"
-        # END Problem 13
+        if not self.real_queue:
+            ScubaThrower.reduce_armor(self,amount)
+        else:
+            self.armor -= amount
+            if self.armor <= 0:
+                self.place.remove_insect(self)
+                self.death_callback()
+                bees_win()
+
+    def remove_from(self, place):
+        if not self.real_queue:
+            ScubaThrower.remove_from(self, place)
+
+    # END Problem 13
 
 
 
