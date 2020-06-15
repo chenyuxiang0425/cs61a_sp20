@@ -25,7 +25,7 @@ class Place:
         # Phase 1: Add an entrance to the exit
         # BEGIN Problem 2
         "*** YOUR CODE HERE ***"
-        if exit:
+        if self.exit:
             self.exit = exit
             exit.entrance = self
         # END Problem 2
@@ -165,6 +165,8 @@ class ThrowerAnt(Ant):
     damage = 1
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
     food_cost = 3
+    min_range = 0
+    max_range = float('inf')
     def nearest_bee(self, beehive):
         """Return the nearest Bee in a Place that is not the HIVE, connected to
         the ThrowerAnt's Place by following entrances.
@@ -173,9 +175,11 @@ class ThrowerAnt(Ant):
         """
         # BEGIN Problem 3 and 4
         location = self.place
+        space = 0
         while location != beehive:
-            if location.bees:
+            if location.bees and space >= self.min_range and space <= self.max_range:
                 return random_or_none(location.bees)  # REPLACE THIS LINE
+            space += 1
             location = location.entrance
         return None
         # END Problem 3 and 4
@@ -206,7 +210,8 @@ class ShortThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    max_range = 3
     # END Problem 4
 
 class LongThrower(ThrowerAnt):
@@ -216,7 +221,8 @@ class LongThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    min_range = 5
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
 class FireAnt(Ant):
@@ -227,8 +233,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False   # Change to True to view in the GUI
-    # END Problem 5
+    implemented = True   # Change to True to view in the GUI
 
     def __init__(self, armor=3):
         """Create an Ant with an ARMOR quantity."""
@@ -243,7 +248,18 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
-        # END Problem 5
+        self.armor -= amount
+        # Ant.reduce_armor(self, amount) cannot use this. because it may remove ant immediately
+
+        for bee in self.place.bees[:]:
+            bee.reduce_armor(amount)
+        if self.armor <= 0:
+            if len(self.place.bees) > 0:
+                for bee in self.place.bees[:]:
+                    bee.reduce_armor(self.damage)
+            Ant.reduce_armor(self,self.damage)  # reduce_armor,if armor = 0 -> remove it and send callback
+            self.armor = 0
+            # END Problem 5
 
 class HungryAnt(Ant):
     """HungryAnt will take three turns to digest a Bee in its place.
