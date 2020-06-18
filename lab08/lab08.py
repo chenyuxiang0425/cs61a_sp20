@@ -16,15 +16,13 @@ def insert(link, value, index):
     >>> insert(link, 4, 5)
     IndexError
     """
-    if ____________________:
-        ____________________
-        ____________________
-        ____________________
-    elif ____________________:
-        ____________________
+    if index == 0:
+        link.rest = Link(link.first,link.rest)
+        link.first = value
+    elif link.rest is Link.empty:
+        raise IndexError
     else:
-        ____________________
-
+        insert(link.rest, value, index - 1)
 
 
 # Recursion/Tree Recursion
@@ -37,7 +35,7 @@ def insert_into_all(item, nested_list):
     >>> insert_into_all(0, nl)
     [[0], [0, 1, 2], [0, 3]]
     """
-    return ______________________________
+    return [[item] + rest for rest in nested_list]
 
 def subseqs(s):
     """Assuming that S is a list, return a nested list of all subsequences
@@ -49,11 +47,13 @@ def subseqs(s):
     >>> subseqs([])
     [[]]
     """
-    if ________________:
-        ________________
+    if not s:
+        return [[]]
     else:
-        ________________
-        ________________
+        with_in = insert_into_all(s[0],subseqs(s[1:]))
+        with_out = subseqs(s[1:])
+        return with_in + with_out
+        
 def inc_subseqs(s):
     """Assuming that S is a list, return a nested list of all subsequences
     of S (a list of lists) for which the elements of the subsequence
@@ -70,14 +70,14 @@ def inc_subseqs(s):
     """
     def subseq_helper(s, prev):
         if not s:
-            return ____________________
+            return [[]]
         elif s[0] < prev:
-            return ____________________
+            return subseq_helper(s[1:], prev)
         else:
-            a = ______________________
-            b = ______________________
-            return insert_into_all(________, ______________) + ________________
-    return subseq_helper(____, ____)
+            a = subseq_helper(s[1:],s[0])
+            b = subseq_helper(s[1:],prev)
+            return insert_into_all(s[0], a) + b
+    return subseq_helper(s, 0)
 
 # Generators
 def permutations(seq):
@@ -102,12 +102,14 @@ def permutations(seq):
     >>> sorted(permutations("ab"))
     [['a', 'b'], ['b', 'a']]
     """
-    if ____________________:
-        yield ____________________
+    if not seq:
+        yield []
     else:
-        for perm in _____________________:
-            for _____ in ________________:
-                _________________________
+        for perm in permutations(seq[1:]):
+            # 初始列表的所有排列组合可以通过取较小列表的所有排列组合，并将第一个元素插入到每个可能的位置上来找到。
+            # https://www.seas.upenn.edu/~bhusnur4/cit590_fall2013/printAllPerm.py
+            for i in range(len(seq)):
+                yield perm[:i] + list(seq[0:1]) + perm[i:]
 
 # Tree class
 class Tree:
