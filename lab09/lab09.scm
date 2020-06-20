@@ -47,16 +47,24 @@
 ;; Extra questions
 
 (define lst
-  'YOUR-CODE-HERE
+  (list (list 1) 2 (list 3 4) 5)
 )
 
 (define (composed f g)
-  'YOUR-CODE-HERE
+  (define (res n)
+    (f (g n))
+  )
+  res
 )
 
 (define (remove item lst)
-  'YOUR-CODE-HERE
-)
+  (define (isitem? x)
+    (not ( = item x)))
+
+  (if (null? lst)
+  ()
+  (filter-lst isitem? lst)
+))
 
 
 ;;; Tests
@@ -68,14 +76,21 @@
 ; expect (3 1 4 4)
 
 (define (no-repeats s)
-  'YOUR-CODE-HERE
-)
+  (if (null? s)
+    ()
+    (cons (car s) (no-repeats (filter-lst (lambda (a) (not(= a (car s)))) (cdr s))))))
 
 (define (substitute s old new)
-  'YOUR-CODE-HERE
-)
+  (if (null? s)
+  ()
+  (if (eq? (car s) old)
+    (cons new (substitute (cdr s) old new))
+    (if (pair? (car s))
+    (cons (substitute (car s) old new) (substitute (cdr s) old new))
+    (cons (car s) (substitute (cdr s) old new))))))
 
 
 (define (sub-all s olds news)
-  'YOUR-CODE-HERE
-)
+  (if (or (null? s) (null? olds))
+  s
+  (sub-all(substitute s (car olds) (car news))(cdr olds)(cdr news))))
