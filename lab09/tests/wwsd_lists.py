@@ -47,11 +47,10 @@ test = {
         {
           'code': r"""
           scm> (cons 1 '(list 2 3))  ; Recall quoting
-          9b9cf94f8db477d48f973c67acf1842a
-          # locked
+          (1 list 2 3)
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,
@@ -66,11 +65,10 @@ test = {
         {
           'code': r"""
           scm> '(cons 4 (cons (cons 6 8) ()))
-          beed0382fff95ecdd5f05fad62b13daf
-          # locked
+          (cons 4 (cons (cons 6 8) ()))
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,

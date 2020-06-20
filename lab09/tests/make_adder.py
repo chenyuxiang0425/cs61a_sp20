@@ -7,38 +7,34 @@ test = {
         {
           'code': r"""
           scm> (add-two 2)
-          a1e11865670a42d05e20b9a3455dc457
-          # locked
+          4
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (add-two 3)
-          8d3d95b1350833ea7b81c9454d1af611
-          # locked
+          5
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (add-three 3)
-          aae76aca9259a704209b44193fad5f6a
-          # locked
+          6
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (add-three 9)
-          cdea711b0c52a527b337065a855eb87a
-          # locked
+          12
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,
