@@ -13,6 +13,11 @@ def link_to_list(link):
     []
     """
     "*** YOUR CODE HERE ***"
+    res  = []
+    while link:
+        res.append(link.first)
+        link = link.rest
+    return res
 
 # Trees
 
@@ -26,6 +31,12 @@ def cumulative_mul(t):
     Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
     """
     "*** YOUR CODE HERE ***"
+    if t.is_leaf():
+        pass
+    else:
+        for b in t.branches:
+            cumulative_mul(b)
+            t.label *= b.label
 
 # Link List Class
 class Link:
@@ -117,6 +128,7 @@ def has_cycle(link):
     False
     """
     "*** YOUR CODE HERE ***"
+
 
 def has_cycle_constant(link):
     """Return whether link contains a cycle.
