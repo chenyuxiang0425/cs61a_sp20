@@ -7,38 +7,34 @@ test = {
         {
           'code': r"""
           scm> (pow 2 5)
-          8379450ae6ada8408eac45f6d07d50e9
-          # locked
+          32
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (pow 10 3)
-          a8f0d4a30069c2fe4a2465d4a6706bd3
-          # locked
+          1000
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (pow 3 3)
-          57eb85c355b8d93fd1330ecc237bef58
-          # locked
+          27
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           scm> (pow 1 100000000000000) ; make sure you are using the logarithmic time algorithm!
-          a904eba72e14d658e2e8f72792dd3944
-          # locked
+          1
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,
