@@ -7,20 +7,16 @@ test = {
         {
           'code': r"""
           scm> (make-product 2 3)
-          d89dec15f7ace001cf3392d60dd0343e
-          # locked
+          6
           scm> (make-product 'x 0)
-          2987fbac6d35b0de527489a12a63cba6
-          # locked
+          0
           scm> (make-product 1 'x)
-          af70c7541c654d94823e8ec85df4bd8b
-          # locked
+          x
           scm> (make-product 'a 'x)
-          942d355044217c0fda7147914763c11b
-          # locked
+          (* a x)
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,
