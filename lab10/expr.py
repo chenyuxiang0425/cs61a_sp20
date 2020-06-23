@@ -107,6 +107,10 @@ class Name(Expr):
         None
         """
         "*** YOUR CODE HERE ***"
+        if self.string not in env:
+            return None
+        else:
+            return env[self.string]
 
     def __str__(self):
         return self.string
@@ -173,6 +177,11 @@ class CallExpr(Expr):
         Number(14)
         """
         "*** YOUR CODE HERE ***"
+        operator = self.operator.eval(env)
+        operands = []
+        for item in self.operands:
+            operands.append(item.eval(env))
+        return operator.apply(operands)
 
     def __str__(self):
         function = str(self.operator)
@@ -282,6 +291,12 @@ class LambdaFunction(Value):
             raise TypeError("Oof! Cannot apply number {} to arguments {}".format(
                 comma_separated(self.parameters), comma_separated(arguments)))
         "*** YOUR CODE HERE ***"
+        # Make a copy of the parent environment. You can make a copy of a dictionary d with d.copy().
+        new_env = self.parent.copy()
+        # Update the copy with the parameters of the LambdaFunction and the arguments passed into the method.
+        new_env.update(zip(self.parameters,arguments))
+        # Evaluate the body using the newly created environment.
+        return self.body.eval(new_env)
 
     def __str__(self):
         definition = LambdaExpr(self.parameters, self.body)

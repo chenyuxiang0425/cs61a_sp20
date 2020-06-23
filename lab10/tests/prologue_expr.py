@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': '65b6edc43cb88f4725318719eada899a',
+          'answer': 'literal, name, call expression, lambda expression',
           'choices': [
             'literal, name, call expression, lambda expression',
             'number, lambda function, primitive function, string',
@@ -13,11 +13,11 @@ test = {
             'name, function, number, literal'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'question': 'What are all the types of expressions in PyCombinator?'
         },
         {
-          'answer': 'edeb45ad4b7bd1fda9d5ab340c9cd779',
+          'answer': 'number, lambda function, primitive function',
           'choices': [
             'number, lambda function, primitive function',
             'number, string, function',
@@ -25,11 +25,11 @@ test = {
             'number, lambda expression, primitive function'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'question': 'What are all the types of values in PyCombinator?'
         },
         {
-          'answer': '9487a632d76c000e0cd9acf25dba6527',
+          'answer': 'a Number',
           'choices': [
             'a Number',
             'a String',
@@ -37,11 +37,11 @@ test = {
             'an Expression'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'question': 'What does a Literal evaluate to?'
         },
         {
-          'answer': '72505e10219d03d5c484574d2c172b9a',
+          'answer': 'A lambda function is the result of evaluating a lambda expression',
           'choices': [
             'They are the same thing',
             'A lambda expression is the result of evaluating a lambda function',
@@ -49,11 +49,11 @@ test = {
             'A lambda expression is a call to a lambda function'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'question': 'What is the difference between a lambda expression and a lambda function?'
         },
         {
-          'answer': '1558e266fcf3c144eade49469854a739',
+          'answer': 'A method of Expr objects that evaluates the Expr and returns a Value',
           'choices': [
             'A method of Expr objects that evaluates the Expr and returns a Value',
             'A method of Expr objects that evaluates a call expression and returns a Number',
@@ -61,11 +61,11 @@ test = {
             'A method of Literal objects that returns a Name'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'question': 'Which of the following describes the eval method?'
         },
         {
-          'answer': '052a36e24d69e66f6bacbde1c3c38171',
+          'answer': 'As dictionaries that map variable names (strings) to Value objects',
           'choices': [
             'As dictionaries that map variable names (strings) to Value objects',
             'As sequences of Frame objects',
@@ -73,7 +73,7 @@ test = {
             'As linked lists containing dictionaries'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'question': 'How are environments represented in our interpreter?'
         }
       ],
