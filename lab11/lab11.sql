@@ -7,7 +7,7 @@ CREATE TABLE smallest_int AS
   SELECT time, smallest FROM students WHERE smallest > 2 ORDER BY smallest LIMIT 20;
 
 CREATE TABLE matchmaker AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT a.pet as pet, a.song as song, a.color as color_first, b.color as color_second from students as a, students as b where a.pet = b.pet and a.song = b.song and a.time < b.time;
 
 CREATE TABLE parents AS
   SELECT "abraham" AS parent, "barack" AS child UNION
