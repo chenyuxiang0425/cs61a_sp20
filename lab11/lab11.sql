@@ -1,10 +1,10 @@
 .read sp20data.sql
 
 CREATE TABLE obedience AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT seven, instructor FROM students;
 
 CREATE TABLE smallest_int AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT time, smallest FROM students WHERE smallest > 2 ORDER BY smallest LIMIT 20;
 
 CREATE TABLE matchmaker AS
   SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
