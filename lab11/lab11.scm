@@ -1,5 +1,11 @@
 (define (flatmap f x)
-  'YOUR-CODE-HERE)
+  (cond
+    (x)
+    (y)
+    (f)
+    (l)
+  )
+  )
 
 (define (expand lst)
   'YOUR-CODE-HERE)
