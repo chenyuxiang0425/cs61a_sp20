@@ -37,22 +37,29 @@ CREATE TABLE sizes AS
 -- Ways to stack 4 dogs to a height of at least 170, ordered by total height
 CREATE TABLE stacks_helper(dogs, stack_height, last_height);
 
+INSERT INTO stacks_helper
+  SELECT name, height, height FROM dogs;
 -- Add your INSERT INTOs here
-
+INSERT INTO stacks_helper
+  SELECT dogs || ',' || name ,stack_height + height, height FROM dogs,stacks_helper where height > last_height;
+INSERT INTO stacks_helper
+  SELECT dogs || ',' || name ,stack_height + height, height FROM dogs,stacks_helper where height > last_height;
+INSERT INTO stacks_helper
+  SELECT dogs || ',' || name ,stack_height + height, height FROM dogs,stacks_helper where height > last_height;
 
 CREATE TABLE stacks AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT dogs, stack_height from stacks_helper where stack_height > 170 order by stack_height;
 
 CREATE TABLE smallest_int_having AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT time, smallest from students group by smallest having count(*) <= 1 order by smallest;
 
 CREATE TABLE sp20favpets AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT pet, count(*) as count from students group by pet order by count DESC LIMIT 10;
 
 
 CREATE TABLE sp20dog AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT pet, count from sp20favpets where pet = "dog";
 
 
 CREATE TABLE obedienceimages AS
-  SELECT "REPLACE THIS LINE WITH YOUR SOLUTION";
+  SELECT seven, instructor, count(*) as count from students where seven = '7' group by instructor;
