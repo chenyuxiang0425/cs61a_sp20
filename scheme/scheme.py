@@ -37,6 +37,14 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
     else:
         # BEGIN PROBLEM 4
         "*** YOUR CODE HERE ***"
+        # Evaluate the operator (which should evaluate to an instance of Procedure)
+        procedure = scheme_eval(first ,env)
+        validate_procedure(procedure)
+        # Pair.map: """Return a Scheme list after mapping Python function FN to SELF."""
+        # fn -> Pair(mapped, self.rest.map(fn))
+        # calculate every inside Pair in rest
+        args = rest.map(lambda x: scheme_eval(x, env))
+        return scheme_apply(procedure, args, env)
         # END PROBLEM 4
 
 def self_evaluating(expr):
@@ -93,12 +101,17 @@ class Frame(object):
         """Define Scheme SYMBOL to have VALUE."""
         # BEGIN PROBLEM 2
         "*** YOUR CODE HERE ***"
+        self.bindings[symbol] = value
         # END PROBLEM 2
 
     def lookup(self, symbol):
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 2
         "*** YOUR CODE HERE ***"
+        if symbol in self.bindings:
+            return self.bindings[symbol]
+        elif self.parent is not None:
+            return self.parent.lookup(symbol)
         # END PROBLEM 2
         raise SchemeError('unknown identifier: {0}'.format(symbol))
 
@@ -156,6 +169,12 @@ class BuiltinProcedure(Procedure):
         python_args = []
         # BEGIN PROBLEM 3
         "*** YOUR CODE HERE ***"
+        while args:
+            python_args.append(args.first)
+            args = args.rest
+
+        if self.use_env:
+            python_args.append(env)
         # END PROBLEM 3
         try:
             return self.fn(*python_args)
@@ -238,6 +257,15 @@ def do_define_form(expressions, env):
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 5
         "*** YOUR CODE HERE ***"
+        # expr = read_line("(x (+ 2 8))")
+        # (x (+ 2 8)) -> Pair('x', Pair(Pair('+', Pair(2, Pair(8, nil))), nil))
+        # expr.first -> 'x'
+        # expr.rest -> Pair(Pair('+', Pair(2, Pair(8, nil))), nil)
+        # expr.rest.first -> Pair('+', Pair(2, Pair(8, nil)))
+        expr = expressions.rest.first
+        value = scheme_eval(expr, env)
+        env.define(target, value)
+        return target
         # END PROBLEM 5
     elif isinstance(target, Pair) and scheme_symbolp(target.first):
         # BEGIN PROBLEM 9
@@ -257,6 +285,9 @@ def do_quote_form(expressions, env):
     validate_form(expressions, 1, 1)
     # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
+    # expr = read_line("('(1 2))") -> Pair(Pair('quote', Pair(Pair(1, Pair(2, nil)), nil)), nil)
+    # expr.first = Pair('quote', Pair(Pair(1, Pair(2, nil)), nil))
+    return expressions.first
     # END PROBLEM 6
 
 def do_begin_form(expressions, env):
