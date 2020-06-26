@@ -43,6 +43,13 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
         # Pair.map: """Return a Scheme list after mapping Python function FN to SELF."""
         # fn -> Pair(mapped, self.rest.map(fn))
         # calculate every inside Pair in rest
+
+        # BEGIN PROBLEM 20
+        "update scheme_eval so that calls to macro procedures are evaluated correctly."
+        if isinstance(procedure, MacroProcedure):
+            return scheme_eval(procedure.apply_macro(rest,env),env)
+        # END PROBLEM 20
+
         args = rest.map(lambda x: scheme_eval(x, env))
         return scheme_apply(procedure, args, env)
         # END PROBLEM 4
@@ -139,7 +146,7 @@ class Frame(object):
         # BEGIN PROBLEM 10
         "*** YOUR CODE HERE ***"
         new_frame = Frame(self)
-        while formals != nil and vals != nil:
+        while formals is not nil and vals is not nil:
             new_frame.define(formals.first, vals.first)
             formals, vals = formals.rest, vals.rest
         return new_frame
@@ -267,7 +274,7 @@ def do_define_form(expressions, env):
     """
     validate_form(expressions, 2) # Checks that expressions is a list of length at least 2
     target = expressions.first
-    if scheme_symbolp(target): 
+    if scheme_symbolp(target):
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 5
         "*** YOUR CODE HERE ***"
@@ -455,7 +462,7 @@ def make_let_frame(bindings, env):
     validate_formals(names)
     # END PROBLEM 14
     return env.make_child_frame(names, values)
-    
+
 
 def do_define_macro(expressions, env):
     """Evaluate a define-macro form.
@@ -468,7 +475,18 @@ def do_define_macro(expressions, env):
     """
     # BEGIN Problem 20
     "*** YOUR CODE HERE ***"
-
+    # https://github.com/lovelyfrog/cs61A/blob/master/projects/scheme/scheme.py
+    validate_form(expressions,2) # Checks that expressions is a list of length at least 2
+    target = expressions.first # ((f x) (car x)) -> (f x)
+    if isinstance(target, Pair) and scheme_symbolp(target.first):
+        f_name = target.first # (f x) -> f
+        validate_formals(target.rest)
+        f_function = MacroProcedure(target.rest,expressions.rest,env)
+        env.define(f_name, f_function)
+        return f_name
+    else:
+        bad_target = target.first if isinstance(target,Pair) else target
+        raise SchemeError('non-symbol: {0}'.format(bad_target))
     # END Problem 20
 
 
