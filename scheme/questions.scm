@@ -8,7 +8,13 @@
 ;; Returns a list of two-element lists
 (define (enumerate s)
   ; BEGIN PROBLEM 15
-  'replace-this-line
+  (define (inner res index curr_s)
+    (if (null? curr_s)
+    res
+    ; append ((index,car s))
+    (inner (append res (cons(list index (car curr_s)) nil)) (+ index 1) (cdr curr_s))
+  ))
+  (inner () 0 s)
   )
   ; END PROBLEM 15
 
@@ -18,8 +24,12 @@
 ;; the merged lists.
 (define (merge comp list1 list2)
   ; BEGIN PROBLEM 16
-  'replace-this-line
-  )
+  (cond
+    ((equal? list1 nil) list2)
+    ((equal? list2 nil) list1)
+    ((comp (car list1)(car list2))
+    (cons (car list1)(merge comp (cdr list1) list2)))
+    (else (cons (car list2)(merge comp list1 (cdr list2))))))
   ; END PROBLEM 16
 
 
@@ -32,8 +42,12 @@
 
 (define (nondecreaselist s)
     ; BEGIN PROBLEM 17
-    'replace-this-line
-    )
+  (cond
+    ((equal? (cdr s) nil) (cons s nil))
+    ((> (car s) (cadr s))
+      (cons (cons (car s) nil) (nondecreaselist (cdr s))))
+    (else
+      (cons (cons (car s) (car (nondecreaselist (cdr s)))) (cdr (nondecreaselist (cdr s)))))))
     ; END PROBLEM 17
 
 
