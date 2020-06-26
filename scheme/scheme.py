@@ -79,7 +79,7 @@ def eval_all(expressions, env):
     if expressions == nil:
         return None
     while expressions != nil:
-        curr_num = scheme_eval(expressions.first,env) # calculate scheme eval every time
+        curr_num = scheme_eval(expressions.first,env, expressions.rest is nil) # calculate scheme eval every time
         expressions = expressions.rest
 
         if expressions == nil:                        # only return the last value
@@ -347,9 +347,9 @@ def do_if_form(expressions, env):
     """
     validate_form(expressions, 2, 3)
     if is_true_primitive(scheme_eval(expressions.first, env)):
-        return scheme_eval(expressions.rest.first, env)
+        return scheme_eval(expressions.rest.first, env,True)
     elif len(expressions) == 3:
-        return scheme_eval(expressions.rest.rest.first, env)
+        return scheme_eval(expressions.rest.rest.first, env,True)
 
 def do_and_form(expressions, env):
     """Evaluate a (short-circuited) and form.
@@ -367,9 +367,9 @@ def do_and_form(expressions, env):
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
     if expressions is nil:
-        return is_true_primitive(scheme_eval(expressions,env))
+        return is_true_primitive(scheme_eval(expressions,env,True))
     while expressions is not nil:
-        value = scheme_eval(expressions.first,env)
+        value = scheme_eval(expressions.first,env,expressions.rest is nil)
         if is_false_primitive(value) or expressions.rest is nil:
             return value
         expressions = expressions.rest
@@ -393,7 +393,7 @@ def do_or_form(expressions, env):
     if expressions is nil:
         return is_false_primitive(scheme_eval(expressions,env))
     while expressions is not nil:
-        value = scheme_eval(expressions.first,env)
+        value = scheme_eval(expressions.first,env, expressions.rest is nil)
         if is_true_primitive(value) or expressions.rest is nil:
             return value
         expressions = expressions.rest
@@ -468,6 +468,7 @@ def do_define_macro(expressions, env):
     """
     # BEGIN Problem 20
     "*** YOUR CODE HERE ***"
+
     # END Problem 20
 
 
@@ -579,6 +580,11 @@ class MuProcedure(Procedure):
 
     # BEGIN PROBLEM 18
     "*** YOUR CODE HERE ***"
+    def make_call_frame(self, args, env):
+        """Make a frame that binds my formal parameters to ARGS, a Scheme list
+        of values, for a lexically-scoped call evaluated in environment ENV."""
+        "*** YOUR CODE HERE ***"
+        return env.make_child_frame(self.formals, args)
     # END PROBLEM 18
 
     def __str__(self):
@@ -595,6 +601,7 @@ def do_mu_form(expressions, env):
     validate_formals(formals)
     # BEGIN PROBLEM 18
     "*** YOUR CODE HERE ***"
+    return MuProcedure(formals, expressions.rest)
     # END PROBLEM 18
 
 SPECIAL_FORMS['mu'] = do_mu_form
@@ -665,9 +672,24 @@ def optimize_tail_calls(original_scheme_eval):
             return Thunk(expr, env)
 
         result = Thunk(expr, env)
-        # BEGIN
+        # BEGIN PROBLEM 19
+        # All expressions throughout your interpreter that are in a tail context
+        # should be evaluated by calling scheme_eval with True as a third argument.
+        # 上面的计算里面，只有在最后expression.rest is nil不用尾递归，因为那时候已经是个值了
         "*** YOUR CODE HERE ***"
-        # END
+        # it should repeatedly call original_scheme_eval
+        # until the result is a value, rather than a Thunk.
+        # 这个的意思其实是用 Thunk 类做个转接，如果是尾递归(tail为真)并且是非原子表达式(尾递归没有进行过计算)
+        # 就返回一个 Thunk 实例(通过不断创建这个实例优化递归，这样就不需要保留frame了),就像这样
+        # fact(6, 1)
+        # fact(5, 6)
+        # fact(4, 30)
+        # 在这里是一个一个的 Thunk 实例。
+        # problem 19 题目要求写的是不进行尾递归的情况，那么直接用 scheme_eval 把它求出来就可以了
+        while isinstance(result, Thunk):
+            result = original_scheme_eval(result.expr,result.env)
+        return result
+        # END PROBLEM 19
     return optimized_eval
 
 
@@ -678,7 +700,7 @@ def optimize_tail_calls(original_scheme_eval):
 ################################################################
 # Uncomment the following line to apply tail call optimization #
 ################################################################
-# scheme_eval = optimize_tail_calls(scheme_eval)
+scheme_eval = optimize_tail_calls(scheme_eval)
 
 
 
