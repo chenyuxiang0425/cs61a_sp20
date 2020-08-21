@@ -460,6 +460,7 @@ class QueenAnt(ScubaThrower):  # You should change this line
         self.real_queue = QueenAnt.real_queue
         if self.real_queue:
             QueenAnt.real_queue = False
+        self.ants = []
         # END Problem 13
 
     def action(self, gamestate):
@@ -473,19 +474,20 @@ class QueenAnt(ScubaThrower):  # You should change this line
         if not self.real_queue:
             self.reduce_armor(self.armor)
         else:
+            behind = self.place.exit
+            while behind:
+                if behind.ant:
+                    if behind.ant not in self.ants:
+                        behind.ant.damage*=2
+                        self.ants.append(behind.ant)
+                    if isinstance(behind.ant,ContainerAnt) and behind.ant.contained_ant is not None:
+                        if behind.ant.contained_ant not in self.ants:
+
+                            behind.ant.contained_ant.damage *= 2
+                            self.ants.append(behind.ant.contained_ant)
+                behind = behind.exit
             ScubaThrower.action(self, gamestate)
-            exit_place = self.place.exit
-            while exit_place is not None:  # identify the location
-                curr_ant = exit_place.ant
-                if curr_ant is not None:
-                    if not hasattr(curr_ant,'mark'): # use 'mark' to avoid double damage 2 times
-                        curr_ant.mark = True
-                        curr_ant.damage *= 2
-                    if isinstance(curr_ant,ContainerAnt) and curr_ant.contained_ant is not None:
-                        if not hasattr(curr_ant.contained_ant, 'mark'):
-                            curr_ant.contained_ant.mark = True
-                            curr_ant.contained_ant.damage *= 2
-                exit_place = exit_place.exit
+
         # END Problem 13
 
     def reduce_armor(self, amount):
@@ -932,3 +934,6 @@ class AssaultPlan(dict):
     def all_bees(self):
         """Place all Bees in the beehive and return the list of Bees."""
         return [bee for wave in self.values() for bee in wave]
+
+
+
